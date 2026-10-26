@@ -1,5 +1,6 @@
-# Fly.io: `fly launch --copy-config --no-deploy`, derefter `fly volumes create worldwide_data --region arn --size 1`
-# og `fly deploy`. Appnavnet skal være unikt hos Fly, så ret det her først.
+# Fly.io. Sat op til at koste så lidt som muligt: én lille maskine der slukker, når ingen bruger den (du betaler kun, mens den kører),
+# 1 GB disk til databasen (den mindste Fly tilbyder), ingen dedikeret IPv4-adresse, ingen helbredstjek der holder den vågen.
+# Brug tools/deploy-api.sh. Appnavnet skal være unikt hos Fly.
 app = 'worldwide-id'
 primary_region = 'arn'
 
@@ -25,13 +26,6 @@ primary_region = 'arn'
     type = 'requests'
     soft_limit = 200
     hard_limit = 250
-
-[[http_service.checks]]
-  grace_period = '10s'
-  interval = '30s'
-  method = 'GET'
-  timeout = '5s'
-  path = '/v1/health'
 
 [[vm]]
   size = 'shared-cpu-1x'

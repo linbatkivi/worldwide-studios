@@ -10,9 +10,10 @@ if ! fly apps list >/dev/null 2>&1; then
   echo "Fly svarer ikke. Log ind med 'fly auth login', og tjek at kontoen har et betalingskort: https://fly.io/trial" >&2
   exit 1
 fi
-fly apps list | grep -q "^$APP " || fly apps create "$APP"
+fly status -a "$APP" >/dev/null 2>&1 || fly apps create "$APP"
 fly volumes list -a "$APP" 2>/dev/null | grep -q worldwide_data || fly volumes create worldwide_data --region arn --size 1 -a "$APP" -y
-fly deploy -a "$APP" --remote-only
+# --ha=false: kun én maskine (Fly laver ellers to). --depot: bygger hos Depot og starter ikke Flys gamle byggemaskine.
+fly deploy -a "$APP" --ha=false --depot
 
 echo
 curl -fsS "https://$APP.fly.dev/v1/health" && echo
