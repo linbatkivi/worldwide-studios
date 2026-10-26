@@ -1,0 +1,66 @@
+{
+  "name": "worldwide-launcher",
+  "productName": "Worldwide",
+  "version": "1.0.0",
+  "description": "Launcheren til Worldwide (Studios): log ind, installer spillene og spil",
+  "author": "Linus Kivikoski",
+  "license": "MIT",
+  "main": "src/main.js",
+  "private": true,
+  "scripts": {
+    "sync": "node scripts/sync-shared.js",
+    "start": "npm run sync && electron .",
+    "test": "node --test \"test/*.test.js\"",
+    "dist": "npm run sync && electron-builder",
+    "dist:mac": "npm run sync && electron-builder --mac",
+    "dist:win": "npm run sync && electron-builder --win",
+    "dist:linux": "npm run sync && electron-builder --linux",
+    "pack": "npm run sync && electron-builder --dir"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.11",
+    "extract-zip": "^2.0.1",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "dk.worldwide.launcher",
+    "productName": "Worldwide",
+    "copyright": "Worldwide (Studios)",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "!src/renderer/art/**/*-sm.webp.map"
+    ],
+    "extraResources": [
+      { "from": "node_modules/ws", "to": "runtime/node_modules/ws", "filter": ["**/*"] }
+    ],
+    "afterPack": "scripts/after-pack.js",
+    "mac": {
+      "target": [{ "target": "dmg", "arch": ["universal"] }, { "target": "zip", "arch": ["universal"] }],
+      "category": "public.app-category.games",
+      "artifactName": "Worldwide-macOS.${ext}",
+      "icon": "build/icon.icns",
+      "identity": null,
+      "darkModeSupport": true
+    },
+    "dmg": { "title": "Worldwide", "background": null, "contents": [{ "x": 150, "y": 190 }, { "x": 390, "y": 190, "type": "link", "path": "/Applications" }] },
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "artifactName": "Worldwide-Setup.${ext}",
+      "icon": "build/icon.ico"
+    },
+    "nsis": { "oneClick": true, "perMachine": false, "createDesktopShortcut": true, "shortcutName": "Worldwide" },
+    "linux": {
+      "target": [{ "target": "AppImage", "arch": ["x64"] }],
+      "category": "Game",
+      "artifactName": "Worldwide-Linux.${ext}",
+      "icon": "build/icon.png"
+    },
+    "publish": [{ "provider": "github", "owner": "linbatkivi", "repo": "worldwide-studios" }]
+  }
+}

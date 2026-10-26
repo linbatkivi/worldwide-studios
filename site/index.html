@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Worldwide (Studios)</title>
+<meta name="description" content="Worldwide (Studios) er et lille spilstudie. White Dust er udgivet, Complex er på vej. Hent launcheren og få dem begge med én konto.">
+<meta name="theme-color" content="#09090a">
+<meta property="og:title" content="Worldwide (Studios)">
+<meta property="og:description" content="Et lille spilstudie. Ét spil er færdigt, ét er på vej. Hent launcheren.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://linbatkivi.github.io/worldwide-studios/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script>document.documentElement.classList.add('js');try{if(sessionStorage.getItem('ww-intro'))document.documentElement.classList.add('seen')}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#games" data-i="skip">Spring til spillene</a>
+
+<!-- intro: kun første gang i en session -->
+<div class="intro" id="intro" aria-hidden="true">
+  <svg class="intro-mark" viewBox="0 0 32 32"><path d="M11 5C6 10 6 22 11 27"/><path d="M21 5c5 5 5 17 0 22"/><circle cx="16" cy="16" r="2.7"/></svg>
+  <span class="intro-n mono" id="introN">000</span>
+</div>
+
+<!-- markør: to parenteser der lægger sig om det man peger på -->
+<div class="cur" id="cur" aria-hidden="true"><span class="cur-l">(</span><span class="cur-r">)</span><span class="cur-dot"></span><span class="cur-tag mono" id="curTag"></span></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" data-cursor aria-label="Worldwide (Studios)">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M11 5C6 10 6 22 11 27"/><path d="M21 5c5 5 5 17 0 22"/><circle cx="16" cy="16" r="2.7"/></svg>
+    <span class="wm">Worldwide<i>(Studios)</i></span>
+  </a>
+  <nav class="links" aria-label="Hovedmenu">
+    <a href="#games" data-cursor data-i="nav.games">Spil</a>
+    <a href="#studios" data-cursor data-i="nav.studios">Studios</a>
+    <a href="#launcher" data-cursor data-i="nav.launcher">Launcher</a>
+  </nav>
+  <div class="nav-r">
+    <button class="lang mono" id="lang" data-cursor aria-label="Sprog / Language"><span data-l="da">DA</span><span data-l="en">EN</span></button>
+    <a class="pill dl-nav" href="#launcher" data-cursor data-i="nav.get">Hent launcher</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <canvas class="hero-sphere" id="sphere" aria-hidden="true"></canvas>
+  <div class="hero-meta mono" data-reveal>
+    <span data-i="hero.kind">Spilstudie</span>
+  </div>
+  <ul class="hero-list" aria-label="Spil" data-reveal>
+    <li><a href="#white-dust" data-cursor><span class="mono">01</span><b>White Dust</b><em class="mono" data-i="chip.out">Udgivet</em></a></li>
+    <li><a href="#complex" data-cursor><span class="mono">02</span><b>Complex</b><em class="mono wip" data-i="chip.wip">Under udvikling</em></a></li>
+  </ul>
+  <h1 class="wordmark" id="wordmark" aria-label="Worldwide (Studios)">
+    <span class="wm-a" data-chars>Worldwide</span>
+    <span class="wm-b"><span class="par" data-chars>(</span><span data-chars>Studios</span><span class="par" data-chars>)</span></span>
+  </h1>
+  <p class="hero-sub" data-reveal data-i="hero.sub">Ét spil er færdigt. Ét er på vej.</p>
+  <a class="scroll mono" href="#manifest" data-cursor data-reveal><span data-i="hero.scroll">Scroll</span><i></i></a>
+</section>
+
+<!-- ================= MANIFEST ================= -->
+<section class="manifest" id="manifest">
+  <p class="manifest-text" id="manifestText" data-i="manifest" data-split="words">Worldwide (Studios) er et lille spilstudie. Vi har ét spil færdigt og ét på vej, og begge ligger i den samme launcher. Du opretter én konto, og den virker i dem alle.</p>
+</section>
+
+<!-- ================= SPIL ================= -->
+<section class="games" id="games">
+  <header class="sec-head">
+    <h2 class="sec-title" data-split="chars" data-i="games.title">Spil</h2>
+    <span class="mono sec-count">(02)</span>
+  </header>
+
+  <article class="game" id="white-dust" data-game="white-dust">
+    <div class="game-media" data-cursor="Se" data-gallery="white-dust">
+      <div class="game-frame"><img src="assets/art/white-dust/hero.webp" width="1920" height="1008" alt="Bane fra White Dust: en japansk landsby om natten med kirsebærtræ og lanterner" loading="lazy"></div>
+      <span class="game-chip mono"><i></i><span data-i="chip.out">Udgivet</span></span>
+    </div>
+    <div class="game-info">
+      <span class="game-idx mono">01</span>
+      <h3 class="game-name" data-split="chars">White Dust</h3>
+      <p class="game-kind mono" data-i="wd.kind">Taktisk multiplayer-FPS</p>
+      <p class="game-desc" data-i="wd.desc">SWAT mod Hijackers. Hver runde starter med en købsfase, derefter skal bomben plantes og forsvares. Fem mod fem, tre baner, og du er selv vært, så der er ingen server at vente på.</p>
+      <dl class="game-facts">
+        <div><dt data-i="f.teams">Hold</dt><dd data-i="wd.f1">5 mod 5, bots fylder op</dd></div>
+        <div><dt data-i="f.maps">Baner</dt><dd>Bureau · Niseko · Fattoria</dd></div>
+        <div><dt data-i="f.on">Til</dt><dd>Windows · macOS · Linux</dd></div>
+      </dl>
+      <a class="link-arrow" href="#launcher" data-cursor><span data-i="cta.get">Hent launcheren</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </article>
+
+  <div class="strip" aria-hidden="true"><div class="strip-in" id="strip"></div></div>
+
+  <article class="game rev" id="complex" data-game="complex">
+    <div class="game-media" data-cursor="Se" data-gallery="complex">
+      <div class="game-frame"><img src="assets/art/complex/hero.webp" width="1920" height="1080" alt="Tennisbane i Complex med lameltag, grønne vægge og skyline i baggrunden" loading="lazy"></div>
+      <span class="game-chip mono wip"><i></i><span data-i="chip.wip">Under udvikling</span></span>
+    </div>
+    <div class="game-info">
+      <span class="game-idx mono">02</span>
+      <h3 class="game-name" data-split="chars">Complex</h3>
+      <p class="game-kind mono" data-i="cx.kind">Socialt sportscenter</p>
+      <p class="game-desc" data-i="cx.desc">Et sportscenter du kan gå rundt i. Tennis kan spilles i dag, mod computeren eller to på samme tastatur. Bowling, volleyball og badminton kommer bagefter, i ét kvarter uden loadingskærme.</p>
+      <dl class="game-facts">
+        <div><dt data-i="f.engine">Motor</dt><dd>Godot 4.7</dd></div>
+        <div><dt data-i="f.now">Spilbart nu</dt><dd data-i="cx.f1">Tennis</dd></div>
+        <div><dt data-i="f.next">Næste</dt><dd data-i="cx.f2">Kvarteret, bowling, volleyball</dd></div>
+      </dl>
+      <a class="link-arrow" href="#launcher" data-cursor><span data-i="cta.get">Hent launcheren</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </article>
+</section>
+
+<!-- ================= STUDIOS ================= -->
+<section class="studios" id="studios">
+  <header class="sec-head">
+    <h2 class="sec-title" data-split="chars" data-i="studios.title">Studierne</h2>
+    <span class="mono sec-count">(02)</span>
+  </header>
+  <div class="open" id="open" aria-label="(kivi studios)">
+    <span class="open-l" aria-hidden="true">(</span>
+    <span class="open-t"><span>kivi studios</span></span>
+    <span class="open-r" aria-hidden="true">)</span>
+  </div>
+  <div class="studio-rows">
+    <div class="studio-row" data-reveal>
+      <h3>Worldwide <i>(Studios)</i></h3>
+      <p data-i="studios.a">Det der samler det hele: launcheren, kontoen og den her side.</p>
+    </div>
+    <div class="studio-row" data-reveal>
+      <h3>(kivi studios)</h3>
+      <p data-i="studios.b">Understudiet, hvor spillene bliver lavet. White Dust og Complex kommer begge herfra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LAUNCHER ================= -->
+<section class="launcher" id="launcher">
+  <div class="launcher-copy">
+    <span class="mono kicker" data-i="l.kicker" data-reveal>Launcher</span>
+    <h2 class="l-title" data-split="chars" data-i="l.title">Én launcher.</h2>
+    <p class="l-text" data-reveal data-i="l.text">Opret en konto, installér spillene og hold dem opdateret fra ét sted. Din fremgang følger kontoen, også hvis du skifter computer.</p>
+    <ol class="steps" data-reveal>
+      <li><span class="mono">01</span><span data-i="l.s1">Hent og åbn launcheren</span></li>
+      <li><span class="mono">02</span><span data-i="l.s2">Opret en konto, eller log ind</span></li>
+      <li><span class="mono">03</span><span data-i="l.s3">Vælg et spil og tryk Installér</span></li>
+    </ol>
+    <div class="dl" data-reveal>
+      <a class="btn-big" id="dlMain" href="https://github.com/linbatkivi/worldwide-studios/releases/latest" data-cursor data-mag>
+        <span class="btn-big-t" id="dlLabel" data-i="l.get">Hent launcheren</span>
+        <svg viewBox="0 0 24 24"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>
+      </a>
+      <p class="dl-other mono" id="dlOther"></p>
+      <p class="dl-note" id="dlNote" data-i="l.note"></p>
+    </div>
+  </div>
+  <div class="launcher-shot" id="shotWrap" data-reveal>
+    <div class="win" id="win">
+      <div class="win-bar"><i></i><i></i><i></i><span class="mono">Worldwide</span></div>
+      <img src="assets/img/launcher.webp" width="1600" height="1006" alt="Launcheren med White Dust åben i biblioteket" loading="lazy">
+      <div class="glare" id="glare"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-big" id="footBig" aria-hidden="true"><span>Worldwide</span> <span class="l">(Studios)</span></div>
+  <div class="foot-row">
+    <p class="mono">© 2026 Worldwide (Studios) · (kivi studios)</p>
+    <nav class="foot-links mono" aria-label="Links">
+      <a href="https://github.com/linbatkivi/worldwide-studios" target="_blank" rel="noopener" data-cursor>GitHub</a>
+      <a href="privatliv.html" data-cursor data-i="foot.privacy">Privatliv</a>
+      <button id="toTop" data-cursor data-i="foot.top">Til toppen</button>
+    </nav>
+  </div>
+</footer>
+
+<!-- billedvisning -->
+<div class="gal" id="gal" hidden role="dialog" aria-modal="true" aria-label="Billeder">
+  <button class="gal-x" id="galX" aria-label="Luk" data-cursor>×</button>
+  <button class="gal-p" id="galP" aria-label="Forrige" data-cursor>(</button>
+  <img id="galImg" alt="">
+  <button class="gal-n" id="galN" aria-label="Næste" data-cursor>)</button>
+  <span class="gal-c mono" id="galC"></span>
+</div>
+
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/SplitText.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/sphere.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

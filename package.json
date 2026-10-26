@@ -1,0 +1,14 @@
+{
+  "name": "worldwide-studios",
+  "private": true,
+  "description": "Worldwide (Studios): hjemmeside, launcher, konto-server og kataloget over spil",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node tools/dev.js",
+    "test": "npm test --prefix api && npm run sync --prefix launcher && npm test --prefix launcher",
+    "art": "python3 tools/make-art.py",
+    "icons": "launcher/node_modules/.bin/electron tools/make-icons.js",
+    "sync-assets": "node tools/sync-assets.js",
+    "publish:complex": "node tools/publish-game.js complex"
+  }
+}

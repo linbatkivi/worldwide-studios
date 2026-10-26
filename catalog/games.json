@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "api": "https://worldwide-id.fly.dev",
+  "site": "https://linbatkivi.github.io/worldwide-studios/",
+  "launcher": {
+    "repo": "linbatkivi/worldwide-studios",
+    "assets": {
+      "darwin": "Worldwide-macOS.dmg",
+      "win32": "Worldwide-Setup.exe",
+      "linux": "Worldwide-Linux.AppImage"
+    }
+  },
+  "studios": [
+    { "id": "worldwide", "name": "Worldwide (Studios)" },
+    { "id": "kivi", "name": "(kivi studios)", "parent": "worldwide" }
+  ],
+  "games": [
+    {
+      "id": "white-dust",
+      "name": "White Dust",
+      "studio": "kivi",
+      "status": "released",
+      "genre": { "da": "Taktisk multiplayer-FPS", "en": "Tactical multiplayer FPS" },
+      "tagline": {
+        "da": "SWAT mod Hijackers. Bombe, købsfase og fem mod fem.",
+        "en": "SWAT versus Hijackers. Bomb, buy phase and five on five."
+      },
+      "description": {
+        "da": "Hver runde starter med en købsfase. Derefter skal Hijackers plante bomben, og SWAT skal stoppe dem. Første hold til syv runder vinder. Du er selv vært for dine kampe, så der er ingen server at vente på.",
+        "en": "Every round opens with a buy phase. Then the Hijackers plant the bomb and SWAT stops them. First team to seven rounds wins. You host your own matches, so there is no server to wait for."
+      },
+      "facts": [
+        { "k": { "da": "Hold", "en": "Teams" }, "v": { "da": "5 mod 5, med bots hvis I er for få", "en": "5 v 5, with bots if you are short" } },
+        { "k": { "da": "Baner", "en": "Maps" }, "v": "Bureau · Niseko · Fattoria" },
+        { "k": { "da": "Multiplayer", "en": "Multiplayer" }, "v": { "da": "Peer-to-peer, værten er serveren", "en": "Peer to peer, the host is the server" } },
+        { "k": { "da": "Sprog", "en": "Languages" }, "v": { "da": "Dansk, engelsk, tysk, fransk, spansk, kinesisk", "en": "Danish, English, German, French, Spanish, Chinese" } }
+      ],
+      "platforms": ["win32", "darwin", "linux"],
+      "art": { "hero": "white-dust/hero.webp", "card": "white-dust/hero-sm.webp", "shots": ["white-dust/s1.webp", "white-dust/s2.webp", "white-dust/s3.webp", "white-dust/s4.webp", "white-dust/s5.webp"] },
+      "package": {
+        "kind": "web-manifest",
+        "runtime": "white-dust",
+        "manifest": "https://linbatkivi.github.io/white-dust-web/game/manifest.json",
+        "source": "https://github.com/linbatkivi/white_dust"
+      }
+    },
+    {
+      "id": "complex",
+      "name": "Complex",
+      "studio": "kivi",
+      "status": "in-development",
+      "genre": { "da": "Socialt sportscenter", "en": "Social sports hub" },
+      "tagline": {
+        "da": "Et sportscenter du kan gå rundt i. Tennis først.",
+        "en": "A sports centre you can walk around in. Tennis first."
+      },
+      "description": {
+        "da": "Complex er et helt kvarter med baner, caféer og tilskuere, hvor man går fra den ene sport til den næste uden loadingskærme. Tennis kan spilles i dag. Bowling, volleyball og badminton kommer bagefter.",
+        "en": "Complex is a whole neighbourhood of courts, cafés and spectators where you walk from one sport to the next without loading screens. Tennis is playable today. Bowling, volleyball and badminton follow."
+      },
+      "facts": [
+        { "k": { "da": "Motor", "en": "Engine" }, "v": "Godot 4.7" },
+        { "k": { "da": "Spilbart nu", "en": "Playable now" }, "v": { "da": "Tennis, mod computer eller to på samme tastatur", "en": "Tennis, against the computer or two on one keyboard" } },
+        { "k": { "da": "Næste", "en": "Next" }, "v": { "da": "Kvarteret, metro, bowling, volleyball", "en": "The neighbourhood, metro, bowling, volleyball" } }
+      ],
+      "platforms": ["win32", "darwin", "linux"],
+      "art": { "hero": "complex/hero.webp", "card": "complex/hero-sm.webp", "shots": ["complex/s1.webp", "complex/s2.webp", "complex/s3.webp", "complex/s4.webp"] },
+      "package": {
+        "kind": "native",
+        "version": null,
+        "builds": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+# Fly.io: `fly launch --copy-config --no-deploy`, derefter `fly volumes create worldwide_data --region arn --size 1`
+# og `fly deploy`. Appnavnet skal være unikt hos Fly, så ret det her først.
+app = 'worldwide-id'
+primary_region = 'arn'
+
+[build]
+
+[env]
+  PORT = '8080'
+  DB_PATH = '/data/worldwide.db'
+  IP_HEADER = 'fly-client-ip'
+
+[mounts]
+  source = 'worldwide_data'
+  destination = '/data'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = 'requests'
+    soft_limit = 200
+    hard_limit = 250
+
+[[http_service.checks]]
+  grace_period = '10s'
+  interval = '30s'
+  method = 'GET'
+  timeout = '5s'
+  path = '/v1/health'
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '256mb'
