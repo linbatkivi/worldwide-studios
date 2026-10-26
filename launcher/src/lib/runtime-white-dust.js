@@ -50,6 +50,13 @@ const waitHealthy = (port, ms) => new Promise(res => {
   poll();
 });
 
+// Spillets server skal kunne finde 'ws'. Den ligger i launcherens egen mappe, så der lægges et link til den ved siden af spillets filer.
+function ensureModules(linkPath) {
+  const target = nodeModulesDir();
+  try { if (fs.readlinkSync(linkPath) === target) return; fs.rmSync(linkPath, { force: true }); }
+  catch (e) { if (e.code !== 'ENOENT' && e.code !== 'EINVAL') throw e; if (e.code === 'EINVAL') fs.rmSync(linkPath, { recursive: true, force: true }); }
+  fs.symlinkSync(target, linkPath, 'junction');
+}
 const nodeModulesDir = () => app.isPackaged ? path.join(process.resourcesPath, 'runtime', 'node_modules') : path.join(app.getAppPath(), 'node_modules');
 
 /**
@@ -58,9 +65,11 @@ const nodeModulesDir = () => app.isPackaged ? path.join(process.resourcesPath, '
  * @param {string} o.version    spiludgaven (vises i spillet)
  * @param {object|null} o.account  { api, token, user:{id, displayName}, offline } eller null
  * @param {(code:string)=>void} o.onExit
+ * @param {string} [o.moduleLink]  hvor 'ws'-linket skal ligge (kun for installerede spil)
  */
-async function launch({ root, version, account, appVersion, onExit, log = () => {} }) {
+async function launch({ root, version, account, appVersion, onExit, moduleLink, log = () => {} }) {
   if (!fs.existsSync(path.join(root, 'server.js'))) throw new Error('server.js mangler i ' + root);
+  if (moduleLink) ensureModules(moduleLink);
   const port = await freePort();
   const build = buildId(path.join(root, 'shared'));
   let proc = null, win = null, closed = false;

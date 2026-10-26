@@ -5,7 +5,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const web = require('./installer-web');
 const native = require('./installer-native');
-const { rmrf, dirSize } = require('./util');
+const { rmrf } = require('./util');
 
 const isAbort = e => e && (e.name === 'AbortError' || /afbrudt|aborted/i.test(e.message || ''));
 
@@ -157,7 +157,7 @@ class GameManager extends EventEmitter {
       if (g.package.kind === 'web-manifest') {
         const rt = this.runtimes[g.package.runtime];
         if (!rt) throw new Error('Ukendt runtime: ' + g.package.runtime);
-        handle = await rt.launch({ root: dev || path.join(inst.dir, 'files'), version: dev ? 'dev' : inst.version, account, appVersion: this.appVersion, onExit, log: this.log });
+        handle = await rt.launch({ root: dev || path.join(inst.dir, 'files'), version: dev ? 'dev' : inst.version, account, appVersion: this.appVersion, onExit, moduleLink: dev ? null : path.join(inst.dir, 'node_modules'), log: this.log });
       } else handle = this._spawnNative(id, g, inst, dev, account, onExit);
       this.running[id].handle = handle;
     } catch (e) {

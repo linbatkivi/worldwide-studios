@@ -54,8 +54,11 @@ async function boot() {
   const userData = app.getPath('userData');
   useFetch((url, opts) => net.fetch(url, opts));
   const store = createStore(path.join(userData, 'state.json'));
-  const secure = createSecureStore(path.join(userData, 'secrets.json'), safeStorage);
-  await secure.init();
+  // macOS-nøgleringen binder en post til appens signatur. Appen har kun en ad hoc-signatur, der skifter ved hver ny udgave,
+  // og så ville man blive logget ud efter hver opdatering. Derfor bruges en fil kun brugeren kan læse på Mac,
+  // indtil appen signeres med et Apple Developer ID. Windows (DPAPI) og Linux (libsecret) bruger systemets nøglering.
+  const secure = createSecureStore(path.join(userData, 'secrets.json'), process.platform === 'darwin' ? null : safeStorage);
+  const secureReady = secure.init();             // kan tage et øjeblik første gang (nøgleringen), så vinduet venter ikke på det
   const catalog = createCatalog({ userData, log });
   const api = (process.env.WW_API || catalog.get().api).replace(/\/+$/, '');
   const device = `Worldwide ${app.getVersion()} · ${{ darwin: 'macOS', win32: 'Windows', linux: 'Linux' }[process.platform] || process.platform}`;
@@ -121,11 +124,12 @@ async function boot() {
   });
 
   // ---- app
-  handle('app:info', () => ({ version: app.getVersion(), platform: process.platform, arch: process.arch, locale: app.getLocale(), api, secureStorage: secure.encrypted(), dev: isDev, userData }));
+  handle('app:info', async () => { await secureReady; return { version: app.getVersion(), platform: process.platform, arch: process.arch, locale: app.getLocale(), api, secureStorage: secure.encrypted(), dev: isDev, userData }; });
   handle('app:openExternal', url => { if (/^https:\/\//.test(url) || /^mailto:/.test(url)) return shell.openExternal(url); });
   handle('app:update:state', () => updater.state());
   handle('app:update:apply', () => updater.apply());
 
+  await secureReady;
   await auth.restore();
   catalog.refresh().then(r => { if (r.changed) send('catalog:change', r.catalog); }).then(() => games.checkUpdates()).catch(() => {});
   setInterval(() => games.checkUpdates().catch(() => {}), 30 * 60e3).unref();
