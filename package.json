@@ -9,6 +9,7 @@
     "art": "python3 tools/make-art.py",
     "icons": "launcher/node_modules/.bin/electron tools/make-icons.js",
     "sync-assets": "node tools/sync-assets.js",
-    "publish:complex": "node tools/publish-game.js complex"
+    "publish:complex": "node tools/publish-game.js complex",
+    "deploy:api": "tools/deploy-api.sh"
   }
 }
