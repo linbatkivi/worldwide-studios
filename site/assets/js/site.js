@@ -327,6 +327,6 @@
   addEventListener('keydown', e => { if (gal.hidden) return; if (e.key === 'Escape') closeGal(); else if (e.key === 'ArrowLeft') show(cur_ - 1); else if (e.key === 'ArrowRight') show(cur_ + 1); });
 
   // sikkerhedsnet: er noget ikke kommet frem efter få sekunder, vises det
-  setTimeout(() => { if (!document.querySelector('.hero .ch') || getComputedStyle(nav).opacity === '0') root.classList.add('nogsap'); }, 6500);
+  setTimeout(() => { if (!document.querySelector('.hero .ch') || getComputedStyle(nav).opacity < 0.05) root.classList.add('nogsap'); }, 10000);
   ScrollTrigger.refresh();
 })();
