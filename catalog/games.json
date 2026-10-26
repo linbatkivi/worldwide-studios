@@ -11,8 +11,15 @@
     }
   },
   "studios": [
-    { "id": "worldwide", "name": "Worldwide (Studios)" },
-    { "id": "kivi", "name": "(kivi studios)", "parent": "worldwide" }
+    {
+      "id": "worldwide",
+      "name": "Worldwide (Studios)"
+    },
+    {
+      "id": "kivi",
+      "name": "(kivi studios)",
+      "parent": "worldwide"
+    }
   ],
   "games": [
     {
@@ -20,7 +27,10 @@
       "name": "White Dust",
       "studio": "kivi",
       "status": "released",
-      "genre": { "da": "Taktisk multiplayer-FPS", "en": "Tactical multiplayer FPS" },
+      "genre": {
+        "da": "Taktisk multiplayer-FPS",
+        "en": "Tactical multiplayer FPS"
+      },
       "tagline": {
         "da": "SWAT mod Hijackers. Bombe, købsfase og fem mod fem.",
         "en": "SWAT versus Hijackers. Bomb, buy phase and five on five."
@@ -30,13 +40,60 @@
         "en": "Every round opens with a buy phase. Then the Hijackers plant the bomb and SWAT stops them. First team to seven rounds wins. You host your own matches, so there is no server to wait for."
       },
       "facts": [
-        { "k": { "da": "Hold", "en": "Teams" }, "v": { "da": "5 mod 5, med bots hvis I er for få", "en": "5 v 5, with bots if you are short" } },
-        { "k": { "da": "Baner", "en": "Maps" }, "v": "Bureau · Niseko · Fattoria" },
-        { "k": { "da": "Multiplayer", "en": "Multiplayer" }, "v": { "da": "Peer-to-peer, værten er serveren", "en": "Peer to peer, the host is the server" } },
-        { "k": { "da": "Sprog", "en": "Languages" }, "v": { "da": "Dansk, engelsk, tysk, fransk, spansk, kinesisk", "en": "Danish, English, German, French, Spanish, Chinese" } }
+        {
+          "k": {
+            "da": "Hold",
+            "en": "Teams"
+          },
+          "v": {
+            "da": "5 mod 5, med bots hvis I er for få",
+            "en": "5 v 5, with bots if you are short"
+          }
+        },
+        {
+          "k": {
+            "da": "Baner",
+            "en": "Maps"
+          },
+          "v": "Bureau · Niseko · Fattoria"
+        },
+        {
+          "k": {
+            "da": "Multiplayer",
+            "en": "Multiplayer"
+          },
+          "v": {
+            "da": "Peer-to-peer, værten er serveren",
+            "en": "Peer to peer, the host is the server"
+          }
+        },
+        {
+          "k": {
+            "da": "Sprog",
+            "en": "Languages"
+          },
+          "v": {
+            "da": "Dansk, engelsk, tysk, fransk, spansk, kinesisk",
+            "en": "Danish, English, German, French, Spanish, Chinese"
+          }
+        }
       ],
-      "platforms": ["win32", "darwin", "linux"],
-      "art": { "hero": "white-dust/hero.webp", "card": "white-dust/hero-sm.webp", "shots": ["white-dust/s1.webp", "white-dust/s2.webp", "white-dust/s3.webp", "white-dust/s4.webp", "white-dust/s5.webp"] },
+      "platforms": [
+        "win32",
+        "darwin",
+        "linux"
+      ],
+      "art": {
+        "hero": "white-dust/hero.webp",
+        "card": "white-dust/hero-sm.webp",
+        "shots": [
+          "white-dust/s1.webp",
+          "white-dust/s2.webp",
+          "white-dust/s3.webp",
+          "white-dust/s4.webp",
+          "white-dust/s5.webp"
+        ]
+      },
       "package": {
         "kind": "web-manifest",
         "runtime": "white-dust",
@@ -49,7 +106,10 @@
       "name": "Complex",
       "studio": "kivi",
       "status": "in-development",
-      "genre": { "da": "Socialt sportscenter", "en": "Social sports hub" },
+      "genre": {
+        "da": "Socialt sportscenter",
+        "en": "Social sports hub"
+      },
       "tagline": {
         "da": "Et sportscenter du kan gå rundt i. Tennis først.",
         "en": "A sports centre you can walk around in. Tennis first."
@@ -59,16 +119,72 @@
         "en": "Complex is a whole neighbourhood of courts, cafés and spectators where you walk from one sport to the next without loading screens. Tennis is playable today. Bowling, volleyball and badminton follow."
       },
       "facts": [
-        { "k": { "da": "Motor", "en": "Engine" }, "v": "Godot 4.7" },
-        { "k": { "da": "Spilbart nu", "en": "Playable now" }, "v": { "da": "Tennis, mod computer eller to på samme tastatur", "en": "Tennis, against the computer or two on one keyboard" } },
-        { "k": { "da": "Næste", "en": "Next" }, "v": { "da": "Kvarteret, metro, bowling, volleyball", "en": "The neighbourhood, metro, bowling, volleyball" } }
+        {
+          "k": {
+            "da": "Motor",
+            "en": "Engine"
+          },
+          "v": "Godot 4.7"
+        },
+        {
+          "k": {
+            "da": "Spilbart nu",
+            "en": "Playable now"
+          },
+          "v": {
+            "da": "Tennis, mod computer eller to på samme tastatur",
+            "en": "Tennis, against the computer or two on one keyboard"
+          }
+        },
+        {
+          "k": {
+            "da": "Næste",
+            "en": "Next"
+          },
+          "v": {
+            "da": "Kvarteret, metro, bowling, volleyball",
+            "en": "The neighbourhood, metro, bowling, volleyball"
+          }
+        }
       ],
-      "platforms": ["win32", "darwin", "linux"],
-      "art": { "hero": "complex/hero.webp", "card": "complex/hero-sm.webp", "shots": ["complex/s1.webp", "complex/s2.webp", "complex/s3.webp", "complex/s4.webp"] },
+      "platforms": [
+        "win32",
+        "darwin",
+        "linux"
+      ],
+      "art": {
+        "hero": "complex/hero.webp",
+        "card": "complex/hero-sm.webp",
+        "shots": [
+          "complex/s1.webp",
+          "complex/s2.webp",
+          "complex/s3.webp",
+          "complex/s4.webp"
+        ]
+      },
       "package": {
         "kind": "native",
-        "version": null,
-        "builds": {}
+        "version": "0.1.0",
+        "builds": {
+          "darwin": {
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.1.0/Complex-macOS.zip",
+            "sha256": "5c04cfcb9d1ab10e576d0fc23e1f0e0335359c40a68820cea4c7cd153ad89c1e",
+            "size": 131883732,
+            "exec": "Complex.app/Contents/MacOS/Complex"
+          },
+          "win32-x64": {
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.1.0/Complex-Windows.zip",
+            "sha256": "6894366f0b7b1b18deaa54dbf43e4934cb6114a1e64713f61b38e7a5b142aeba",
+            "size": 110697390,
+            "exec": "Complex.exe"
+          },
+          "linux-x64": {
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.1.0/Complex-Linux.zip",
+            "sha256": "8a9f7b72b4f0b0f72c79ed6bd3370e62a3b2e3ed9c03d5a138bf74304cf74aee",
+            "size": 101036155,
+            "exec": "Complex.x86_64"
+          }
+        }
       }
     }
   ]
