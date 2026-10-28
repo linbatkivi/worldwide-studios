@@ -106,7 +106,7 @@ async function boot() {
   handle('games:play', id => games.play(id));
   handle('games:uninstall', id => games.uninstall(id));
   handle('games:repair', id => { games.repair(id).catch(e => log('[repair]', e)); });
-  handle('games:check', () => games.checkUpdates());
+  handle('games:check', async () => { const r = await catalog.refresh(); if (r.changed) send('catalog:change', r.catalog); return games.checkUpdates(); });
   handle('games:reveal', id => { const e = games.entry(id); if (e && e.dir) shell.showItemInFolder(e.dir); });
 
   // ---- indstillinger
@@ -132,7 +132,7 @@ async function boot() {
   await secureReady;
   await auth.restore();
   catalog.refresh().then(r => { if (r.changed) send('catalog:change', r.catalog); }).then(() => games.checkUpdates()).catch(() => {});
-  setInterval(() => games.checkUpdates().catch(() => {}), 30 * 60e3).unref();
+  setInterval(() => catalog.refresh().then(r => { if (r.changed) send('catalog:change', r.catalog); }).then(() => games.checkUpdates()).catch(() => {}), 30 * 60e3).unref();
   updater.start();
 }
 
