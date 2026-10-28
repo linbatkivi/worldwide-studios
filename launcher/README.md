@@ -38,5 +38,5 @@ src/renderer/          brugerfladen (almindelig HTML, CSS og JS)
 Et nyt spil kræver en post i `catalog/games.json`. Et spil bygget på samme måde som White Dust bruger
 `web-manifest`, alt andet er `native` (et zip pr. platform).
 
-macOS-appen er ikke signeret hos Apple. Det betyder, at første åbning kræver højreklik og Åbn, og at selvopdatering
-erstattes af en besked med link. Windows og Linux opdaterer sig selv fra GitHub Releases.
+macOS-appen er ikke signeret hos Apple. Det betyder, at macOS blokerer den første gang (Systemindstillinger, Anonymitet og sikkerhed, Åbn alligevel), og at
+selvopdatering erstattes af en besked med link. Windows og Linux opdaterer sig selv fra GitHub Releases.

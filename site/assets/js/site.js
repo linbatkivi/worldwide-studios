@@ -37,8 +37,8 @@
     'foot.privacy': 'Privacy', 'foot.top': 'Back to top'
   };
   const NOTE = {
-    da: { mac: 'Appen er ikke signeret hos Apple endnu. Første gang: højreklik på den og vælg Åbn.', win: 'Windows kan vise en advarsel om en ukendt udgiver. Vælg Mere info og derefter Kør alligevel.', linux: 'Gør filen kørbar (højreklik, Egenskaber, Tilladelser), og åbn den.', any: '' },
-    en: { mac: 'The app is not signed with an Apple certificate yet. The first time: right click it and choose Open.', win: 'Windows may warn about an unknown publisher. Choose More info, then Run anyway.', linux: 'Make the file executable (right click, Properties, Permissions) and open it.', any: '' }
+    da: { mac: 'macOS blokerer appen første gang, fordi den ikke er signeret hos Apple. Åbn Systemindstillinger, vælg Anonymitet og sikkerhed, og tryk Åbn alligevel.', win: 'Windows kan vise en advarsel om en ukendt udgiver. Vælg Mere info og derefter Kør alligevel.', linux: 'Gør filen kørbar (højreklik, Egenskaber, Tilladelser), og åbn den.', any: '' },
+    en: { mac: 'macOS blocks the app the first time because it is not signed with an Apple certificate. Open System Settings, choose Privacy & Security and press Open Anyway.', win: 'Windows may warn about an unknown publisher. Choose More info, then Run anyway.', linux: 'Make the file executable (right click, Properties, Permissions) and open it.', any: '' }
   };
   const DA = {}; $$('[data-i]').forEach(el => { DA[el.dataset.i] = el.textContent; });
   let lang = store.get('ww-lang') || (/^da\b/i.test(navigator.language || '') ? 'da' : 'en');

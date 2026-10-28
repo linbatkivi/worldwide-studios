@@ -76,7 +76,8 @@ git tag launcher-v1.0.1 && git push origin launcher-v1.0.1
 
 [`launcher.yml`](.github/workflows/launcher.yml) bygger til Windows, macOS og Linux og lægger filerne på en release.
 Download-knapperne på siden peger på `releases/latest/download/…`, så filnavnene må ikke ændres.
-Windows og Linux opdaterer sig selv. Mac-appen er ikke signeret hos Apple, så der får brugeren en besked og et link.
+Windows og Linux opdaterer sig selv. Mac-appen er ikke signeret hos Apple, så der får brugeren en besked og et link, og macOS skal have lov første gang
+(Systemindstillinger, Anonymitet og sikkerhed, Åbn alligevel).
 
 **White Dust**: som før, i spillets eget repo: `node scripts/game-update.js --publish`. Launcheren og spillets egen app
 læser det samme manifest.
@@ -84,7 +85,7 @@ læser det samme manifest.
 **Complex**: `npm run publish:complex -- 0.2.0` bygger til alle tre platforme, lægger dem på en release og skriver
 dem ind i kataloget.
 
-**Konto-serveren**: se [`api/README.md`](api/README.md).
+**Konto-serveren**: kører på Fly.io (`https://worldwide-id.fly.dev`). Opdatér med `npm run deploy:api`, se [`api/README.md`](api/README.md).
 
 ## Nyt spil
 
