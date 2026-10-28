@@ -38,6 +38,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .js.nogsap [data-reveal] { opacity: 1; transform: none; }
 .js .wordmark { visibility: hidden; }
 .js.nogsap .wordmark { visibility: visible; }
+html.holding, html.holding body { overflow: hidden; height: 100%; }
 
 /* ---------- intro ---------- */
 .intro { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: var(--bg); }
@@ -125,8 +126,8 @@ html[lang="da"] .lang [data-l="da"], html[lang="en"] .lang [data-l="en"] { backg
 .game.rev .game-media { grid-column: 5 / 13; }
 .game.rev .game-info { grid-column: 1 / 5; }
 .game-frame { position: relative; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 6px; background: var(--bg2); box-shadow: 0 0 0 1px var(--line); clip-path: inset(0 0 0 0 round 6px); }
-.game-frame img { position: absolute; left: 0; top: -9%; width: 100%; height: 118%; object-fit: cover; will-change: transform; transition: filter .6s; }
-.game-media:hover .game-frame img { filter: brightness(1.08) saturate(1.06); }
+.game-frame img { position: absolute; left: 0; top: -9%; width: 100%; height: 118%; object-fit: cover; will-change: transform; transition: filter .6s, transform 1.1s var(--ease); }
+.game-media:hover .game-frame img { filter: brightness(1.1) saturate(1.08); }
 .game-chip { position: absolute; left: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 99px; background: rgba(9, 9, 10, .7); backdrop-filter: blur(10px); border: 1px solid var(--line2); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; }
 .game-chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--text); }
 .game-chip.wip i { background: var(--acc); animation: blink 1.6s ease-in-out infinite; }

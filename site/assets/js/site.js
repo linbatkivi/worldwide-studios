@@ -110,7 +110,8 @@
     if (y < lastY - 2) nav.classList.remove('hide');
     lastY = y;
   };
-  if (lenis) lenis.on('scroll', e => onScroll(e.scroll)); else addEventListener('scroll', () => onScroll(scrollY), { passive: true });
+  if (lenis) lenis.on('scroll', e => { onScroll(e.scroll); if (!calm) sphere.nudge(e.velocity * 0.0025); });
+  else addEventListener('scroll', () => onScroll(scrollY), { passive: true });
 
   // kuglen i toppen
   const cv = $('#sphere');

@@ -118,7 +118,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 body[data-platform="darwin"] .rail { padding-top: 54px; }
 body[data-platform="darwin"] .auth-brand { left: 96px; }
 .rail-label { padding: 0 12px 10px; font: 500 10.5px var(--mono); text-transform: uppercase; letter-spacing: .12em; color: var(--dim); }
-.games { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; overflow-x: hidden; min-height: 0; }
+.games { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; overflow-x: hidden; min-height: 0; scrollbar-width: none; }
+.games::-webkit-scrollbar { display: none; }
 .g { position: relative; display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 13px; width: 100%; padding: 8px 12px 8px 12px; border-radius: 14px; text-align: left; transition: background .25s, transform .3s var(--ease), padding .4s var(--ease); }
 .g:hover { background: rgba(236, 235, 228, .04); }
 .g::before, .g::after { position: absolute; top: 50%; font: 200 34px/1 'Archivo'; font-stretch: 100%; color: var(--acc); opacity: 0; transition: opacity .3s, transform .5s var(--ease); pointer-events: none; }
