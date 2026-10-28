@@ -76,7 +76,8 @@ git tag launcher-v1.0.1 && git push origin launcher-v1.0.1
 
 [`launcher.yml`](.github/workflows/launcher.yml) bygger til Windows, macOS og Linux og lægger filerne på en release.
 Download-knapperne på siden peger på `releases/latest/download/…`, så filnavnene må ikke ændres.
-Windows og Linux opdaterer sig selv. Mac-appen er ikke signeret hos Apple, så der får brugeren en besked og et link, og macOS skal have lov første gang
+Alle tre opdaterer sig selv ved start og hver time og genstarter, når intet spil kører. På Mac gør launcheren det selv
+(`launcher/src/lib/mac-update.js`), fordi appen ikke er signeret hos Apple. Første installation kræver dog, at macOS får lov
 (Systemindstillinger, Anonymitet og sikkerhed, Åbn alligevel).
 
 **White Dust**: som før, i spillets eget repo: `node scripts/game-update.js --publish`. Launcheren og spillets egen app

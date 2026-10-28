@@ -39,4 +39,4 @@ Et nyt spil kræver en post i `catalog/games.json`. Et spil bygget på samme må
 `web-manifest`, alt andet er `native` (et zip pr. platform).
 
 macOS-appen er ikke signeret hos Apple. Det betyder, at macOS blokerer den første gang (Systemindstillinger, Anonymitet og sikkerhed, Åbn alligevel), og at
-selvopdatering erstattes af en besked med link. Windows og Linux opdaterer sig selv fra GitHub Releases.
+opdateringer hentes af launcheren selv (`src/lib/mac-update.js`) i stedet for electron-updater. Windows og Linux bruger electron-updater.
