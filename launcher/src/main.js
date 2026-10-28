@@ -75,7 +75,8 @@ async function boot() {
   games.on('progress', p => send('games:progress', p));
 
   const updater = createSelfUpdater({
-    releasesUrl: `https://github.com/${catalog.get().launcher.repo}/releases/latest`,
+    releasesUrl: `https://github.com/${catalog.get().launcher.repo}/releases/latest`, repo: catalog.get().launcher.repo,
+    canRestart: () => Object.keys(games.running).length === 0,
     send: s => send('app:update', s), log
   });
   ctx = { store, secure, catalog, auth, games, updater, api, userData };
