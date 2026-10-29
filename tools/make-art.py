@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = [ROOT / "site/assets/art", ROOT / "launcher/src/renderer/art"]
 
 WD = HOME / "wd/web/assets/img"
-CX = HOME / "Complex/docs"
+SRC = ROOT / "tools/art-src"
 
 # (spil, filnavn, kilde, bredde)
 JOBS = [
@@ -24,11 +24,11 @@ JOBS = [
     ("white-dust", "s3",     WD / "maps/bureau_atrium.jpg",       1280),
     ("white-dust", "s4",     WD / "maps/fattoria_mid.jpg",        1280),
     ("white-dust", "s5",     WD / "shots/v21_runde_vundet.jpg",   1280),
-    ("complex",    "hero",   CX / "m2/m2_hero_t2.0.png",          1920),
-    ("complex",    "s1",     CX / "m1/m1_cam1.png",               1280),
-    ("complex",    "s2",     CX / "m3/m3_hit_effects.png",        1280),
-    ("complex",    "s3",     CX / "m3/m3_point.png",              1280),
-    ("complex",    "s4",     CX / "m1/m1_cam0.png",               1280),
+    ("blindline",  "hero",   SRC / "blindline-hero.webp",         1920),
+    ("blindline",  "s1",     SRC / "blindline-s1.webp",          1280),
+    ("blindline",  "s2",     SRC / "blindline-s2.webp",          1280),
+    ("blindline",  "s3",     SRC / "blindline-s3.webp",          1280),
+    ("blindline",  "s4",     SRC / "blindline-s4.webp",          1280),
 ]
 
 def save(img, dest, width, quality=80):

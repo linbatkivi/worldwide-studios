@@ -4,6 +4,7 @@
 //
 //   node tools/publish-game.js complex 0.2.0              bygger, uploader, opdaterer kataloget og pusher det
 //   node tools/publish-game.js complex 0.2.0 --skip-build bruger de builds der allerede ligger i Complex/builds
+//   node tools/publish-game.js blindline 0.1.0           samme for Blindline (Electron, bygges med electron-builder)
 //   node tools/publish-game.js complex 0.2.0 --no-push    ændrer kataloget lokalt, men pusher ikke
 //
 // Kræver: Godot med eksport-skabeloner (GODOT=/sti/til/Godot), gh (logget ind), zip og macOS' codesign/ditto.
@@ -19,14 +20,25 @@ const GAMES = {
   }
 };
 
+GAMES.blindline = {
+  dir: path.join(process.env.HOME, 'Projekter', 'Blindline'), title: 'Blindline', electron: true,
+  zips: { mac: 'dist/Blindline-macOS.zip', win: 'dist/Blindline-Windows.zip', linux: 'dist/Blindline-Linux.zip' },
+  execs: { mac: 'Blindline.app/Contents/MacOS/Blindline', win: 'Blindline.exe', linux: 'blindline' },
+  linuxArgs: ['--no-sandbox']
+};
+
 const [id, version, ...flags] = process.argv.slice(2);
-if (!GAMES[id] || !/^\d+\.\d+\.\d+$/.test(version || '')) { console.error('brug: node tools/publish-game.js complex 0.2.0 [--skip-build] [--no-push]'); process.exit(1); }
+if (!GAMES[id] || !/^\d+\.\d+\.\d+$/.test(version || '')) { console.error('brug: node tools/publish-game.js complex|blindline 0.2.0 [--skip-build] [--no-push]'); process.exit(1); }
 const g = GAMES[id], has = f => flags.includes(f);
 const run = (cmd, args, o = {}) => execFileSync(cmd, args, { stdio: ['ignore', 'pipe', 'inherit'], ...o }).toString().trim();
 const sha = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const out = path.join(g.dir, 'builds'), dist = path.join(out, 'dist-' + version);
 
-if (!has('--skip-build')) {
+if (!has('--skip-build') && g.electron) {
+  console.log('· bygger med electron-builder');
+  const r = spawnSync('npx', ['electron-builder', '--mac', '--win', '--linux'], { cwd: g.dir, stdio: 'inherit', env: { ...process.env, CSC_IDENTITY_AUTO_DISCOVERY: 'false' } });
+  if (r.status !== 0) { console.error('✗ bygning fejlede'); process.exit(1); }
+} else if (!has('--skip-build')) {
   for (const [preset, rel] of Object.entries(g.presets)) {
     fs.mkdirSync(path.dirname(path.join(out, rel)), { recursive: true });
     console.log('· eksporterer', preset);
@@ -40,12 +52,18 @@ fs.rmSync(dist, { recursive: true, force: true }); fs.mkdirSync(dist, { recursiv
 const assets = [];
 { // macOS: pak ud, ad hoc-signér (Apple Silicon kræver mindst det) og pak igen med ditto, så rettigheder og signatur overlever
   const tmp = path.join(dist, 'mac'); fs.mkdirSync(tmp);
-  run('unzip', ['-q', path.join(out, g.presets.macOS), '-d', tmp]);
+  run('unzip', ['-q', g.electron ? path.join(g.dir, g.zips.mac) : path.join(out, g.presets.macOS), '-d', tmp]);
   run('codesign', ['--force', '--deep', '--sign', '-', path.join(tmp, g.title + '.app')]);
   const zip = path.join(dist, g.title + '-macOS.zip');
   run('ditto', ['-c', '-k', '--keepParent', path.join(tmp, g.title + '.app'), zip]);
-  assets.push({ key: 'darwin', file: zip, exec: `${g.title}.app/Contents/MacOS/${g.title}` });
+  assets.push({ key: 'darwin', file: zip, exec: g.electron ? g.execs.mac : `${g.title}.app/Contents/MacOS/${g.title}` });
 }
+if (g.electron) {
+  for (const [key, k, name] of [['win32-x64', 'win', 'Windows'], ['linux-x64', 'linux', 'Linux']]) {
+    const zip = path.join(dist, `${g.title}-${name}.zip`); fs.copyFileSync(path.join(g.dir, g.zips[k]), zip);
+    assets.push({ key, file: zip, exec: g.execs[k], ...(k === 'linux' ? { args: g.linuxArgs } : {}) });
+  }
+} else
 for (const [key, preset, name, exe] of [['win32-x64', 'Windows', 'Windows', g.title + '.exe'], ['linux-x64', 'Linux', 'Linux', g.title + '.x86_64']]) {
   const zip = path.join(dist, `${g.title}-${name}.zip`);
   run('zip', ['-q', '-j', zip, path.join(out, g.presets[preset])]);
@@ -63,7 +81,7 @@ run('gh', ['release', 'upload', tag, '-R', HUB, '--clobber', ...assets.map(a => 
 const file = path.join(root, 'catalog', 'games.json'), cat = JSON.parse(fs.readFileSync(file, 'utf8'));
 const game = cat.games.find(x => x.id === id);
 game.package.version = version;
-game.package.builds = Object.fromEntries(assets.map(a => [a.key, { url: `https://github.com/${HUB}/releases/download/${tag}/${path.basename(a.file)}`, sha256: a.sha256, size: a.size, exec: a.exec }]));
+game.package.builds = Object.fromEntries(assets.map(a => [a.key, { url: `https://github.com/${HUB}/releases/download/${tag}/${path.basename(a.file)}`, sha256: a.sha256, size: a.size, exec: a.exec, ...(a.args ? { args: a.args } : {}) }]));
 fs.writeFileSync(file, JSON.stringify(cat, null, 2) + '\n');
 console.log('✓ kataloget opdateret:', id, version);
 if (!has('--no-push')) {

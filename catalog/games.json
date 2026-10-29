@@ -102,48 +102,51 @@
       }
     },
     {
-      "id": "complex",
-      "name": "Complex",
+      "id": "blindline",
+      "name": "Blindline",
       "studio": "kivi",
       "status": "in-development",
       "genre": {
-        "da": "Socialt sportscenter",
-        "en": "Social sports hub"
+        "da": "Co-op rally",
+        "en": "Co-op rally"
       },
       "tagline": {
-        "da": "Et sportscenter du kan gå rundt i. Tennis først.",
-        "en": "A sports centre you can walk around in. Tennis first."
+        "da": "Chaufføren kan næsten ikke se. Navigatøren har kortet.",
+        "en": "The driver can barely see. The navigator has the map."
       },
       "description": {
-        "da": "Complex er et helt kvarter med baner, caféer og tilskuere, hvor man går fra den ene sport til den næste uden loadingskærme. Tennis kan spilles i dag. Bowling, volleyball og badminton kommer bagefter.",
-        "en": "Complex is a whole neighbourhood of courts, cafés and spectators where you walk from one sport to the next without loading screens. Tennis is playable today. Bowling, volleyball and badminton follow."
+        "da": "Chaufføren kører i en så tæt støvtåge, at vejen næsten forsvinder. Navigatøren sidder med kortet og råber sving og farer. Kør solo, eller start en lobby og få op til fire besætninger med. Hvert løb har nedtælling, kontrolpunkter og tider.",
+        "en": "The driver races through dust so thick the road almost disappears. The navigator holds the map and calls out the corners and hazards. Drive solo, or start a lobby with up to four crews. Every race has a countdown, checkpoints and times."
       },
       "facts": [
         {
           "k": {
-            "da": "Motor",
-            "en": "Engine"
-          },
-          "v": "Godot 4.7"
-        },
-        {
-          "k": {
-            "da": "Spilbart nu",
-            "en": "Playable now"
+            "da": "Besætning",
+            "en": "Crew"
           },
           "v": {
-            "da": "Tennis, mod computer eller to på samme tastatur",
-            "en": "Tennis, against the computer or two on one keyboard"
+            "da": "Chauffør og navigatør, op til fire biler",
+            "en": "Driver and navigator, up to four cars"
           }
         },
         {
           "k": {
-            "da": "Næste",
-            "en": "Next"
+            "da": "Online",
+            "en": "Online"
           },
           "v": {
-            "da": "Kvarteret, metro, bowling, volleyball",
-            "en": "The neighbourhood, metro, bowling, volleyball"
+            "da": "Peer-to-peer med en kode på 5 tegn",
+            "en": "Peer to peer with a 5 character code"
+          }
+        },
+        {
+          "k": {
+            "da": "Udseende",
+            "en": "Look"
+          },
+          "v": {
+            "da": "N64-stil, 240 linjer",
+            "en": "N64 style, 240 lines"
           }
         }
       ],
@@ -153,36 +156,39 @@
         "linux"
       ],
       "art": {
-        "hero": "complex/hero.webp",
-        "card": "complex/hero-sm.webp",
+        "hero": "blindline/hero.webp",
+        "card": "blindline/hero-sm.webp",
         "shots": [
-          "complex/s1.webp",
-          "complex/s2.webp",
-          "complex/s3.webp",
-          "complex/s4.webp"
+          "blindline/s1.webp",
+          "blindline/s2.webp",
+          "blindline/s3.webp",
+          "blindline/s4.webp"
         ]
       },
       "package": {
         "kind": "native",
-        "version": "0.2.0",
+        "version": "0.1.0",
         "builds": {
           "darwin": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.2.0/Complex-macOS.zip",
-            "sha256": "73db822ecb8e6298f6b5e07371f119de1bf290cf719a556897e40e2bd63d38a7",
-            "size": 133405025,
-            "exec": "Complex.app/Contents/MacOS/Complex"
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.1.0/Blindline-macOS.zip",
+            "sha256": "2d07bf8e6869dc4bc43d7e97d3e89368c23e76b003da4b9b94b7f93ca0c9aa75",
+            "size": 226850699,
+            "exec": "Blindline.app/Contents/MacOS/Blindline"
           },
           "win32-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.2.0/Complex-Windows.zip",
-            "sha256": "2229f973e98878057cf570f70fc8269672469b868a6b3b08450662db10906a52",
-            "size": 112212946,
-            "exec": "Complex.exe"
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.1.0/Blindline-Windows.zip",
+            "sha256": "1c7cdaa836b367ca24688d495475b96150ea7d3f4c90c656c02d7753f3d1f73f",
+            "size": 156081433,
+            "exec": "Blindline.exe"
           },
           "linux-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.2.0/Complex-Linux.zip",
-            "sha256": "fbb82f8b8ee1c45bc99e80165d9e0a1dbe713ff89460dc1e4a70a285b206ddc8",
-            "size": 102554544,
-            "exec": "Complex.x86_64"
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.1.0/Blindline-Linux.zip",
+            "sha256": "e67a41437311b2a18bb291d50a2c3246703022ca2f1dd50179d11e6b71cd287b",
+            "size": 123082343,
+            "exec": "blindline",
+            "args": [
+              "--no-sandbox"
+            ]
           }
         }
       }

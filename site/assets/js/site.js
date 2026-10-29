@@ -24,12 +24,12 @@
     'wd.desc': 'SWAT versus Hijackers. Every round opens with a buy phase, then the bomb has to be planted and defended. Five on five, three maps, and you host your own matches so there is no server to wait for.',
     'wd.f1': '5 v 5, bots fill the gaps', 'f.teams': 'Teams', 'f.maps': 'Maps', 'f.on': 'Runs on',
     'cta.get': 'Get the launcher',
-    'cx.kind': 'Social sports hub',
-    'cx.desc': 'A sports centre you can walk around in. Tennis is playable today, against the computer or two on one keyboard. Bowling, volleyball and badminton follow, all in one neighbourhood without loading screens.',
-    'cx.f1': 'Tennis', 'cx.f2': 'The neighbourhood, bowling, volleyball', 'f.engine': 'Engine', 'f.now': 'Playable now', 'f.next': 'Next',
+    'bl.kind': 'Co-op rally',
+    'bl.desc': 'The driver races through dust so thick the road almost disappears. The navigator holds the map and calls out corners and hazards. Drive solo, or start a lobby with up to four crews.',
+    'bl.f1': 'Driver and navigator', 'bl.f2': 'Peer to peer, 5 character code', 'bl.f3': 'N64 style, 240 lines', 'f.crew': 'Crew', 'f.net': 'Online', 'f.look': 'Look',
     'studios.title': 'The studios',
     'studios.a': 'What holds it together: the launcher, the account and this site.',
-    'studios.b': 'The sub-studio where the games are made. White Dust and Complex both come from here.',
+    'studios.b': 'The sub-studio where the games are made. White Dust and Blindline both come from here.',
     'l.kicker': 'Launcher', 'l.title': 'One launcher.',
     'l.text': 'Create an account, install the games and keep them updated from one place. Your progress follows the account, even if you switch computers.',
     'l.s1': 'Download and open the launcher', 'l.s2': 'Create an account, or sign in', 'l.s3': 'Pick a game and press Install',
@@ -218,7 +218,7 @@
   // ---------- bånd med spilnavne, hurtigere når man scroller hurtigt ----------
   const strip = $('#strip');
   if (strip) {
-    const set = ['White Dust', 'Complex', 'kivi studios', 'Worldwide'];
+    const set = ['White Dust', 'Blindline', 'kivi studios', 'Worldwide'];
     const one = set.map(n => `<span><b class="p">(</b>${n}<b class="p">)</b></span>`).join('');
     strip.innerHTML = one + one + one + one;
     let x = 0, half = 0;
@@ -310,7 +310,7 @@
   // =================================================================================================================
   const GAL = {
     'white-dust': ['hero', 's1', 's2', 's3', 's4', 's5'].map(n => `assets/art/white-dust/${n}.webp`),
-    'complex': ['hero', 's1', 's2', 's3', 's4'].map(n => `assets/art/complex/${n}.webp`)
+    'blindline': ['hero', 's1', 's2', 's3', 's4'].map(n => `assets/art/blindline/${n}.webp`)
   };
   const gal = $('#gal'), gi = $('#galImg'), gc = $('#galC'); let cur_ = 0, list = [], lastFocus = null;
   const show = i => {

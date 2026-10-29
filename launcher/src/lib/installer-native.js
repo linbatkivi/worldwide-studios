@@ -40,7 +40,7 @@ async function install(pkg, dir, { onProgress, signal, extract } = {}) {
   rmrf(path.join(dir, '.download'));
   // gamle udgaver fjernes, så de ikke æder plads
   for (const ent of fs.readdirSync(dir, { withFileTypes: true })) if (ent.isDirectory() && ent.name !== pkg.version) rmrf(path.join(dir, ent.name));
-  const inst = { version: pkg.version, exec: b.exec, at: new Date().toISOString(), size: dirSize(target) };
+  const inst = { version: pkg.version, exec: b.exec, args: b.args || [], at: new Date().toISOString(), size: dirSize(target) };
   writeJson(path.join(dir, 'installed.json'), inst);
   return inst;
 }

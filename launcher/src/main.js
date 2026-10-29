@@ -104,7 +104,7 @@ async function boot() {
   handle('games:list', () => games.list());
   handle('games:install', id => { games.install(id).catch(e => log('[install]', e)); });     // svarer straks, fremgangen kommer som events
   handle('games:cancel', id => games.cancel(id));
-  handle('games:play', id => games.play(id));
+  handle('games:play', async id => { await Promise.race([catalog.refresh(), new Promise(r => setTimeout(r, 2500))]).catch(() => {}); return games.play(id); });
   handle('games:uninstall', id => games.uninstall(id));
   handle('games:repair', id => { games.repair(id).catch(e => log('[repair]', e)); });
   handle('games:check', async () => { const r = await catalog.refresh(); if (r.changed) send('catalog:change', r.catalog); return games.checkUpdates(); });

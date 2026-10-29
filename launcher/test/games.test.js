@@ -156,3 +156,13 @@ test('uden login startes intet', async t => {
   await assert.rejects(() => gm.play('white-dust'), e => e.code === 'unauthorized');
   assert.equal(gm.entry('white-dust').status, 'ready');
 });
+
+test('Spil opdaterer først, hvis der er en nyere udgave, og starter så den nye', async t => {
+  const files = { 'server.js': Buffer.from('1') };
+  const v = { v: 'v1' }; const o = await origin(files, v); t.after(o.close);
+  const { gm, dir, launches } = setup({ games: [WEB(o.url)] }); t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  await gm.install('white-dust');
+  v.v = 'v2'; files['server.js'] = Buffer.from('2');          // udgivet, mens launcheren var åben, uden tjek imellem
+  await gm.play('white-dust');
+  assert.equal(launches.length, 1); assert.equal(launches[0].version, 'v2');
+});

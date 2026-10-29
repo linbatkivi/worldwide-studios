@@ -114,20 +114,24 @@ class GameManager extends EventEmitter {
   }
 
   // ---- opdateringer ---------------------------------------------------------------------------------------------
+  async checkOne(id) {
+    const g = this.catalog.game(id); if (!g || this.busy[id] || this.running[id]) return;
+    const inst = this._installed(id, g); if (!inst) return;
+    try {
+      if (g.package.kind === 'web-manifest') {
+        const p = await web.plan(g.package.manifest, inst.dir);
+        if (p.upToDate) delete this.latest[id]; else this.latest[id] = { version: p.man.game, bytes: p.bytes };
+      } else if (g.package.version && g.package.version !== inst.version) this.latest[id] = { version: g.package.version, bytes: (native.buildFor(g.package) || {}).size || 0 };
+      else delete this.latest[id];
+    } catch (e) { this.log('[opdatering] tjek fejlede for', id, e.message); }
+    this._emit(id);
+  }
+
   async checkUpdates() {
     for (const g of this.catalog.get().games) {
       const id = g.id;
-      if (this.busy[id] || this.running[id]) continue;
-      const inst = this._installed(id, g); if (!inst) continue;
-      try {
-        if (g.package.kind === 'web-manifest') {
-          const p = await web.plan(g.package.manifest, inst.dir);
-          if (p.upToDate) delete this.latest[id]; else this.latest[id] = { version: p.man.game, bytes: p.bytes };
-        } else if (g.package.version && g.package.version !== inst.version) this.latest[id] = { version: g.package.version, bytes: (native.buildFor(g.package) || {}).size || 0 };
-        else delete this.latest[id];
-      } catch (e) { this.log('[opdatering] tjek fejlede for', id, e.message); }
-      this._emit(id);
-      if (this.latest[id] && this.settings.autoUpdate && !this.running[id]) this.install(id);
+      await this.checkOne(id);
+      if (this.latest[id] && this.settings.autoUpdate && !this.running[id] && !this.busy[id]) this.install(id);
     }
   }
 
@@ -136,6 +140,10 @@ class GameManager extends EventEmitter {
     const g = this.catalog.game(id); if (!g) throw new Error('ukendt spil');
     if (this.running[id]) { const h = this.running[id].handle; try { h.window && h.window.focus(); } catch (e) {} return; }
     if (this.busy[id]) throw new Error('Spillet bliver installeret');
+    if (!this._dev(id) && this._installed(id, g)) {      // altid den nyeste udgave: opdatér først, start så
+      await this.checkOne(id);
+      if (this.latest[id]) { await this.install(id); if (this.errors[id]) this.log('[start] opdateringen fejlede, starter den udgave der er installeret'); }
+    }
     const dev = this._dev(id), inst = dev ? null : this._installed(id, g);
     if (!dev && !inst) throw new Error('Spillet er ikke installeret');
     const account = await this.auth.gameAccount(id);
@@ -173,7 +181,7 @@ class GameManager extends EventEmitter {
     if (dev) {
       cmd = this.settings.dev.godot || (process.platform === 'darwin' ? '/Applications/Godot.app/Contents/MacOS/Godot' : 'godot');
       args = ['--path', dev]; cwd = dev;
-    } else { cmd = native.execPath(inst.dir, inst.inst); cwd = path.dirname(cmd); }
+    } else { cmd = native.execPath(inst.dir, inst.inst); args = inst.inst.args || []; cwd = path.dirname(cmd); }
     const child = this.spawnImpl(cmd, args, { env, cwd, stdio: 'ignore', detached: false });
     child.once('error', e => { this.errors[id] = { code: 'launch_failed', message: e.message }; onExit('error'); });
     child.once('exit', code => onExit(code));
