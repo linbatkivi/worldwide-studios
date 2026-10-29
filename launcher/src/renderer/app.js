@@ -35,6 +35,16 @@
     setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 400); }, 3600);
   }
 
+  // Billeder følger med appen, men nye spil kommer via kataloget før en ny launcher. Mangler et billede, hentes det fra hjemmesiden.
+  const remoteArt = p => (S.catalog.site || '').replace(/\/?$/, '/') + 'assets/' + p;
+  document.addEventListener('error', e => {
+    const im = e.target;
+    if (im && im.tagName === 'IMG' && !im.dataset.remote && /^art\//.test(im.getAttribute('src') || '')) { im.dataset.remote = '1'; im.src = remoteArt(im.getAttribute('src')); }
+  }, true);
+  function fixThumbs() {
+    $$('.th[data-art]').forEach(el => { const p = el.dataset.art, im = new Image(); im.onerror = () => { el.style.backgroundImage = `url(${remoteArt(p)})`; }; im.src = p; });
+  }
+
   // ---------- start ----------
   async function start() {
     S.info = await ww.app.info(); S.settings = await ww.settings.get();
@@ -192,10 +202,11 @@
     list.innerHTML = S.catalog.games.map(g => {
       const e = S.games[g.id];
       return `<button class="g nodrag ${S.view === 'game' && S.sel === g.id ? 'sel' : ''}" data-act="select" data-id="${esc(g.id)}">
-        <span class="th" style="background-image:url(art/${esc(g.art.card)})"></span>
+        <span class="th" data-art="art/${esc(g.art.card)}" style="background-image:url(art/${esc(g.art.card)})"></span>
         <span><span class="n">${esc(g.name)}</span><span class="s ${e && e.status === 'update' ? 'hot' : ''}" data-rs="${esc(g.id)}">${esc(statusLine(g, e))}</span></span>
         <i class="st ${stClass(e)}"></i></button>`;
     }).join('');
+    fixThumbs();
     const u = S.auth.user;
     $('#me').innerHTML = `<span class="avatar">${esc((u && u.displayName || '?').slice(0, 1).toUpperCase())}</span><span style="min-width:0"><span class="nm" style="display:block">${esc(u ? u.displayName : '')}</span><span class="sub"><i class="${S.auth.offline ? 'off' : ''}"></i>${esc(S.auth.offline ? 'offline' : 'online')}</span></span>`;
     $('#gear').classList.toggle('on', S.view === 'settings');

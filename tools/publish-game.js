@@ -22,7 +22,7 @@ const GAMES = {
 
 GAMES.blindline = {
   dir: path.join(process.env.HOME, 'Projekter', 'Blindline'), title: 'Blindline', electron: true,
-  zips: { mac: 'dist/Blindline-macOS.zip', win: 'dist/Blindline-Windows.zip', linux: 'dist/Blindline-Linux.zip' },
+  zips: { mac: { arm64: 'dist/Blindline-macOS-arm64.zip', x64: 'dist/Blindline-macOS-x64.zip' }, win: 'dist/Blindline-Windows.zip', linux: 'dist/Blindline-Linux.zip' },
   execs: { mac: 'Blindline.app/Contents/MacOS/Blindline', win: 'Blindline.exe', linux: 'blindline' },
   linuxArgs: ['--no-sandbox']
 };
@@ -50,13 +50,14 @@ if (!has('--skip-build') && g.electron) {
 // ---- pak til det launcheren forventer: ét zip pr. platform, med det spillet skal bruge
 fs.rmSync(dist, { recursive: true, force: true }); fs.mkdirSync(dist, { recursive: true });
 const assets = [];
-{ // macOS: pak ud, ad hoc-signér (Apple Silicon kræver mindst det) og pak igen med ditto, så rettigheder og signatur overlever
-  const tmp = path.join(dist, 'mac'); fs.mkdirSync(tmp);
-  run('unzip', ['-q', g.electron ? path.join(g.dir, g.zips.mac) : path.join(out, g.presets.macOS), '-d', tmp]);
+// macOS: pak ud, ad hoc-signér (Apple Silicon kræver mindst det) og pak igen med ditto, så rettigheder og signatur overlever
+for (const [key, label, srcZip] of g.electron ? Object.entries(g.zips.mac).map(([arch, z]) => [`darwin-${arch}`, `macOS-${arch}`, path.join(g.dir, z)]) : [['darwin', 'macOS', path.join(out, g.presets.macOS)]]) {
+  const tmp = path.join(dist, 'mac-' + key); fs.mkdirSync(tmp);
+  run('unzip', ['-q', srcZip, '-d', tmp]);
   run('codesign', ['--force', '--deep', '--sign', '-', path.join(tmp, g.title + '.app')]);
-  const zip = path.join(dist, g.title + '-macOS.zip');
+  const zip = path.join(dist, `${g.title}-${label}.zip`);
   run('ditto', ['-c', '-k', '--keepParent', path.join(tmp, g.title + '.app'), zip]);
-  assets.push({ key: 'darwin', file: zip, exec: g.electron ? g.execs.mac : `${g.title}.app/Contents/MacOS/${g.title}` });
+  assets.push({ key, file: zip, exec: g.electron ? g.execs.mac : `${g.title}.app/Contents/MacOS/${g.title}` });
 }
 if (g.electron) {
   for (const [key, k, name] of [['win32-x64', 'win', 'Windows'], ['linux-x64', 'linux', 'Linux']]) {
