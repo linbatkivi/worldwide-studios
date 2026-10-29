@@ -164,24 +164,24 @@
       },
       "package": {
         "kind": "native",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "builds": {
           "darwin": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.1.0/Complex-macOS.zip",
-            "sha256": "5c04cfcb9d1ab10e576d0fc23e1f0e0335359c40a68820cea4c7cd153ad89c1e",
-            "size": 131883732,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.2.0/Complex-macOS.zip",
+            "sha256": "73db822ecb8e6298f6b5e07371f119de1bf290cf719a556897e40e2bd63d38a7",
+            "size": 133405025,
             "exec": "Complex.app/Contents/MacOS/Complex"
           },
           "win32-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.1.0/Complex-Windows.zip",
-            "sha256": "6894366f0b7b1b18deaa54dbf43e4934cb6114a1e64713f61b38e7a5b142aeba",
-            "size": 110697390,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.2.0/Complex-Windows.zip",
+            "sha256": "2229f973e98878057cf570f70fc8269672469b868a6b3b08450662db10906a52",
+            "size": 112212946,
             "exec": "Complex.exe"
           },
           "linux-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.1.0/Complex-Linux.zip",
-            "sha256": "8a9f7b72b4f0b0f72c79ed6bd3370e62a3b2e3ed9c03d5a138bf74304cf74aee",
-            "size": 101036155,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/complex-v0.2.0/Complex-Linux.zip",
+            "sha256": "fbb82f8b8ee1c45bc99e80165d9e0a1dbe713ff89460dc1e4a70a285b206ddc8",
+            "size": 102554544,
             "exec": "Complex.x86_64"
           }
         }
