@@ -4,7 +4,29 @@
 const fs = require('fs');
 const path = require('path');
 const { downloadFile } = require('./net');
+const { spawn } = require('child_process');
 const { readJson, writeJson, freeBytes, rmrf, speedMeter, abortError, dirSize } = require('./util');
+
+// Zip-filen pakkes ud med systemets eget værktøj. extract-zip hænger på Electron-apps (symlinks i Frameworks) og bevarer
+// ikke altid signaturen. Findes værktøjet ikke, bruges extract-zip som reserve.
+function run(cmd, args) {
+  return new Promise((res, rej) => {
+    const p = spawn(cmd, args, { stdio: 'ignore' });
+    p.once('error', rej);
+    p.once('exit', c => c === 0 ? res() : rej(new Error(`${cmd} fejlede (${c})`)));
+  });
+}
+async function extractArchive(zip, dir) {
+  fs.mkdirSync(dir, { recursive: true });
+  try {
+    if (process.platform === 'darwin') return await run('ditto', ['-x', '-k', zip, dir]);
+    if (process.platform === 'win32') return await run('tar', ['-xf', zip, '-C', dir]);
+    return await run('unzip', ['-q', '-o', zip, '-d', dir]);
+  } catch (e) {
+    if (e.code !== 'ENOENT') throw e;
+    await require('extract-zip')(zip, { dir });
+  }
+}
 
 const PLATFORM = { darwin: 'darwin', win32: 'win32', linux: 'linux' }[process.platform];
 const readInstalled = dir => readJson(path.join(dir, 'installed.json'));
@@ -31,7 +53,7 @@ async function install(pkg, dir, { onProgress, signal, extract } = {}) {
 
   emit('extract');
   rmrf(target + '.tmp');
-  await (extract || require('extract-zip'))(tmpZip, { dir: target + '.tmp' });
+  await (extract || extractArchive)(tmpZip, target + '.tmp');
   rmrf(target);
   fs.renameSync(target + '.tmp', target);
   const exe = path.join(target, ...b.exec.split('/'));
