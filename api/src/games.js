@@ -3,5 +3,6 @@
 module.exports = {
   'white-dust': { name: 'White Dust', maxSaveBytes: 256 * 1024 },
   'complex': { name: 'Complex', maxSaveBytes: 256 * 1024 },
-  'blindline': { name: 'Blindline', maxSaveBytes: 256 * 1024 }
+  'blindline': { name: 'Blindline', maxSaveBytes: 256 * 1024 },
+  'freefall': { name: 'Freefall', maxSaveBytes: 256 * 1024 }
 };

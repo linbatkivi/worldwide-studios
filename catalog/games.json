@@ -198,6 +198,75 @@
           }
         }
       }
+    },
+    {
+      "id": "freefall",
+      "name": "Freefall",
+      "studio": "kivi",
+      "status": "in-development",
+      "genre": {
+        "da": "Parkour-fangeleg",
+        "en": "Parkour tag"
+      },
+      "tagline": {
+        "da": "Fangeleg mellem skyskrabere. Rør en anden, så er det dem, der er Den.",
+        "en": "Tag between skyscrapers. Touch someone else and they become It."
+      },
+      "description": {
+        "da": "Den, der er Den, skal røre en anden. Når tiden løber ud, vinder den, der har været Den i færrest sekunder. Du løber, dobbelthopper, dasher, løber på vægge og bruger gribekrog mellem tårne og svævende platforme. Falder du ned i voiden, starter du forfra på toppen. Spil solo mod bots, eller start et rum og få andre med via en kode på fire tal.",
+        "en": "Whoever is It has to touch someone else. When time runs out, the player who has been It for the fewest seconds wins. You run, double jump, dash, wall-run and use a grappling hook between towers and floating platforms. Fall into the void and you start over at the top. Play solo against bots, or start a room and bring others in with a four digit code."
+      },
+      "facts": [
+        {
+          "k": {
+            "da": "Spillere",
+            "en": "Players"
+          },
+          "v": {
+            "da": "Solo mod bots, eller op til otte online",
+            "en": "Solo against bots, or up to eight online"
+          }
+        },
+        {
+          "k": {
+            "da": "Online",
+            "en": "Online"
+          },
+          "v": {
+            "da": "Peer-to-peer med en kode på 4 tal",
+            "en": "Peer to peer with a 4 digit code"
+          }
+        },
+        {
+          "k": {
+            "da": "Bevægelse",
+            "en": "Movement"
+          },
+          "v": {
+            "da": "Dobbelthop, dash, wall-run og gribekrog",
+            "en": "Double jump, dash, wall-run and grappling hook"
+          }
+        }
+      ],
+      "platforms": [
+        "win32",
+        "darwin",
+        "linux"
+      ],
+      "art": {
+        "hero": "freefall/hero.webp",
+        "card": "freefall/hero-sm.webp",
+        "shots": [
+          "freefall/s1.webp",
+          "freefall/s2.webp",
+          "freefall/s3.webp"
+        ]
+      },
+      "package": {
+        "kind": "native",
+        "version": "0.1.0",
+        "builds": {}
+      }
     }
   ]
 }
