@@ -156,13 +156,13 @@
         "linux"
       ],
       "art": {
-        "hero": "blindline/hero.webp",
-        "card": "blindline/hero-sm.webp",
+        "hero": "blindline/hero2.webp",
+        "card": "blindline/hero2-sm.webp",
         "shots": [
-          "blindline/s1.webp",
-          "blindline/s2.webp",
-          "blindline/s3.webp",
-          "blindline/s4.webp"
+          "blindline/c1.webp",
+          "blindline/c2.webp",
+          "blindline/c3.webp",
+          "blindline/c4.webp"
         ]
       },
       "package": {

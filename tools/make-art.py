@@ -29,6 +29,12 @@ JOBS = [
     ("blindline",  "s2",     SRC / "blindline-s2.webp",          1280),
     ("blindline",  "s3",     SRC / "blindline-s3.webp",          1280),
     ("blindline",  "s4",     SRC / "blindline-s4.webp",          1280),
+    # filmiske billeder taget direkte i spillet uden skærmtekst (nye navne, så launcheren henter dem fra siden uden en ny udgave)
+    ("blindline",  "hero2",  SRC / "blindline-hero2.webp",       1920),
+    ("blindline",  "c1",     SRC / "blindline-c1.webp",          1280),
+    ("blindline",  "c2",     SRC / "blindline-c2.webp",          1280),
+    ("blindline",  "c3",     SRC / "blindline-c3.webp",          1280),
+    ("blindline",  "c4",     SRC / "blindline-c4.webp",          1280),
 ]
 
 def save(img, dest, width, quality=80):
