@@ -346,7 +346,35 @@
       "package": {
         "kind": "native",
         "version": "0.1.0",
-        "builds": {}
+        "builds": {
+          "darwin-arm64": {
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.1.0/Freefall-macOS-arm64.zip",
+            "sha256": "04e0688c6e4999daef663ab560d01354f1cdb9f738c23845cce4a9dbd47dda56",
+            "size": 118806850,
+            "exec": "Freefall.app/Contents/MacOS/Freefall"
+          },
+          "darwin-x64": {
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.1.0/Freefall-macOS-x64.zip",
+            "sha256": "24c72576651fed0478ad471e77fc436e0f1d8127817fbe7dc1b644ed8b35a2c1",
+            "size": 126008085,
+            "exec": "Freefall.app/Contents/MacOS/Freefall"
+          },
+          "win32-x64": {
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.1.0/Freefall-Windows.zip",
+            "sha256": "8a65f792ea407fe3413a989ebd39ef022593c077773822df6cb12fea2d4f6b87",
+            "size": 143189365,
+            "exec": "Freefall.exe"
+          },
+          "linux-x64": {
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.1.0/Freefall-Linux.zip",
+            "sha256": "f44a5ad45366d8f4d8bc03f3413fb7965eb2e98bf8063e30d422592531cb2aef",
+            "size": 119594634,
+            "exec": "freefall",
+            "args": [
+              "--no-sandbox"
+            ]
+          }
+        }
       }
     }
   ]
