@@ -38,7 +38,17 @@ const MIGRATIONS = [
      code_hash  TEXT NOT NULL,
      expires_at INTEGER NOT NULL,
      attempts   INTEGER NOT NULL DEFAULT 0
-   );`
+   );`,
+  // rangliste: én post pr. spiller og spil, den længste tid (best_ms) tæller
+  `CREATE TABLE scores (
+     user_id    TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+     game       TEXT NOT NULL,
+     best_ms    INTEGER NOT NULL,
+     runs       INTEGER NOT NULL,
+     updated_at INTEGER NOT NULL,
+     PRIMARY KEY (user_id, game)
+   );
+   CREATE INDEX scores_rank ON scores(game, best_ms DESC, updated_at ASC);`
 ];
 
 function open(file) {

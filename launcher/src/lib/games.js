@@ -5,7 +5,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const web = require('./installer-web');
 const native = require('./installer-native');
-const { rmrf } = require('./util');
+const { rmrf, dirSize } = require('./util');
 
 const isAbort = e => e && (e.name === 'AbortError' || /afbrudt|aborted/i.test(e.message || ''));
 
@@ -18,6 +18,7 @@ class GameManager extends EventEmitter {
     this.running = {};    // id -> { handle, startedAt }
     this.errors = {};     // id -> { code, message }
     this.latest = {};     // id -> { version, bytes } når der findes en nyere udgave
+    this._bundledSize = {};
   }
 
   // ---- hjælpere -------------------------------------------------------------------------------------------------
@@ -28,6 +29,12 @@ class GameManager extends EventEmitter {
     return (st.installs[id] && st.installs[id].dir) || path.join(this.settings.gamesDir || this.defaultDir, id);
   }
   _installed(id, g) {
+    if (g.package.kind === 'bundled') {                    // følger med launcheren: altid installeret, opdateres sammen med den
+      const rt = this.runtimes[g.package.runtime];
+      if (!rt) return null;
+      if (this._bundledSize[id] === undefined) { try { this._bundledSize[id] = dirSize(rt.rootOf(g.package.dir)); } catch (e) { this._bundledSize[id] = 0; } }
+      return { version: g.package.version, size: this._bundledSize[id], dir: null, bundled: true };
+    }
     const dir = this._dirFor(id);
     if (g.package.kind === 'web-manifest') {
       const inst = web.readInstalled(dir);
@@ -37,6 +44,7 @@ class GameManager extends EventEmitter {
     return inst && fs.existsSync(native.execPath(dir, inst)) ? { version: inst.version, size: inst.size || 0, dir, inst } : null;
   }
   _installable(g) {
+    if (g.package.kind === 'bundled') return !!this.runtimes[g.package.runtime];
     if (g.package.kind === 'web-manifest') return !!g.package.manifest;
     return !!native.buildFor(g.package);
   }
@@ -54,7 +62,7 @@ class GameManager extends EventEmitter {
     else if (inst) status = update ? 'update' : 'ready';
     else status = this._installable(g) ? 'not-installed' : 'unavailable';
     return {
-      id, status, installed: !!inst || !!dev, dev: !!dev, version: dev ? 'dev' : inst ? inst.version : null, size: inst ? inst.size : 0,
+      id, status, installed: !!inst || !!dev, dev: !!dev, bundled: !!(inst && inst.bundled), version: dev ? 'dev' : inst ? inst.version : null, size: inst ? inst.size : 0,
       dir: inst ? inst.dir : null, update: update ? { version: latest.version, bytes: latest.bytes || 0 } : null,
       progress: job ? job.progress : null, error: this.errors[id] || null,
       lastPlayed: stats.lastPlayed || null, playSeconds: Math.round(stats.playSeconds || 0)
@@ -66,7 +74,7 @@ class GameManager extends EventEmitter {
   // ---- installation -----------------------------------------------------------------------------------------------
   async install(id) {
     const g = this.catalog.game(id); if (!g) throw new Error('ukendt spil');
-    if (this.busy[id] || this.running[id]) return;
+    if (this.busy[id] || this.running[id] || g.package.kind === 'bundled') return;
     if (!this._installable(g)) throw Object.assign(new Error('Der findes ingen udgave til din computer endnu'), { code: 'no_build' });
     const had = !!this._installed(id, g);
     const dir = this._dirFor(id), controller = new AbortController();
@@ -93,6 +101,8 @@ class GameManager extends EventEmitter {
   cancel(id) { const j = this.busy[id]; if (j) j.controller.abort(); }
 
   async uninstall(id) {
+    const g = this.catalog.game(id);
+    if (g && g.package.kind === 'bundled') return;          // kan ikke fjernes, det er en del af launcheren
     if (this.busy[id] || this.running[id]) throw new Error('Spillet er i gang. Luk det først.');
     const st = this.store.get(), dir = st.installs[id] && st.installs[id].dir;
     if (dir) rmrf(dir);
@@ -115,7 +125,7 @@ class GameManager extends EventEmitter {
 
   // ---- opdateringer ---------------------------------------------------------------------------------------------
   async checkOne(id) {
-    const g = this.catalog.game(id); if (!g || this.busy[id] || this.running[id]) return;
+    const g = this.catalog.game(id); if (!g || this.busy[id] || this.running[id] || g.package.kind === 'bundled') return;
     const inst = this._installed(id, g); if (!inst) return;
     try {
       if (g.package.kind === 'web-manifest') {
@@ -140,7 +150,7 @@ class GameManager extends EventEmitter {
     const g = this.catalog.game(id); if (!g) throw new Error('ukendt spil');
     if (this.running[id]) { const h = this.running[id].handle; try { h.window && h.window.focus(); } catch (e) {} return; }
     if (this.busy[id]) throw new Error('Spillet bliver installeret');
-    if (!this._dev(id) && this._installed(id, g)) {      // altid den nyeste udgave: opdatér først, start så
+    if (!this._dev(id) && g.package.kind !== 'bundled' && this._installed(id, g)) {      // altid den nyeste udgave: opdatér først, start så
       await this.checkOne(id);
       if (this.latest[id]) { await this.install(id); if (this.errors[id]) this.log('[start] opdateringen fejlede, starter den udgave der er installeret'); }
     }
@@ -162,7 +172,11 @@ class GameManager extends EventEmitter {
     this._emit(id);
     try {
       let handle;
-      if (g.package.kind === 'web-manifest') {
+      if (g.package.kind === 'bundled') {
+        const rt = this.runtimes[g.package.runtime];
+        if (!rt) throw new Error('Ukendt runtime: ' + g.package.runtime);
+        handle = await rt.launch({ dir: g.package.dir, title: g.name, account, appVersion: this.appVersion, onExit, log: this.log });
+      } else if (g.package.kind === 'web-manifest') {
         const rt = this.runtimes[g.package.runtime];
         if (!rt) throw new Error('Ukendt runtime: ' + g.package.runtime);
         handle = await rt.launch({ root: dev || path.join(inst.dir, 'files'), version: dev ? 'dev' : inst.version, account, appVersion: this.appVersion, onExit, moduleLink: dev ? null : path.join(inst.dir, 'node_modules'), log: this.log });

@@ -166,3 +166,41 @@ test('Spil opdaterer først, hvis der er en nyere udgave, og starter så den nye
   await gm.play('white-dust');
   assert.equal(launches.length, 1); assert.equal(launches[0].version, 'v2');
 });
+
+// ---- spil der følger med launcheren -----------------------------------------------------------------------------------
+test('et indbygget spil er altid klar, kan startes direkte og kan hverken installeres eller fjernes', async t => {
+  const games = [{ id: 'flugt', name: 'Flugt', package: { kind: 'bundled', runtime: 'bundled', dir: 'flugt', version: '1.0.0' } }];
+  const { gm, dir, launches } = setup({ games }); t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  const launched = [];
+  gm.runtimes.bundled = { rootOf: d => path.join(__dirname, '..', 'src', 'games', d), async launch(o) { launched.push(o); return { stop: () => o.onExit('stopped') }; } };
+
+  const e = gm.entry('flugt');
+  assert.equal(e.status, 'ready'); assert.equal(e.installed, true); assert.equal(e.bundled, true); assert.equal(e.version, '1.0.0'); assert.equal(e.dir, null);
+  assert.ok(e.size > 1e6, 'størrelsen er mappens: ' + e.size);
+
+  await gm.install('flugt'); await gm.checkOne('flugt'); await gm.uninstall('flugt'); await gm.repair('flugt');
+  assert.equal(gm.entry('flugt').status, 'ready');
+  assert.equal(gm.entry('flugt').update, null);
+
+  await gm.play('flugt');
+  assert.equal(launched.length, 1);
+  assert.equal(launched[0].dir, 'flugt'); assert.equal(launched[0].title, 'Flugt'); assert.equal(launched[0].account.token, 'wwg_t');
+  assert.equal(gm.entry('flugt').status, 'running');
+  gm.stopAll();
+  assert.equal(gm.entry('flugt').status, 'ready');
+  assert.ok(gm.entry('flugt').lastPlayed);
+});
+
+test('et indbygget spil uden runtime vises som utilgængeligt i stedet for at vælte listen', () => {
+  const games = [{ id: 'flugt', name: 'Flugt', package: { kind: 'bundled', runtime: 'findes-ikke', dir: 'flugt', version: '1.0.0' } }];
+  const { gm, dir } = setup({ games }); fs.rmSync(dir, { recursive: true, force: true });
+  assert.equal(gm.entry('flugt').status, 'unavailable');
+});
+
+test('kataloget har Flugt som færdigt, indbygget spil, og alle billeder findes', () => {
+  const cat = require('../src/shared/games.json');
+  const g = cat.games.find(x => x.id === 'flugt');
+  assert.ok(g); assert.equal(g.status, 'released'); assert.equal(g.package.kind, 'bundled');
+  assert.ok(fs.existsSync(path.join(__dirname, '..', 'src', 'games', g.package.dir, 'index.html')));
+  for (const f of [g.art.hero, g.art.card, ...g.art.shots, ...g.art.shots.map(s => s.replace('.webp', '-sm.webp'))]) assert.ok(fs.existsSync(path.join(__dirname, '..', 'src', 'renderer', 'art', f)), f);
+});

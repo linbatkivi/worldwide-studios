@@ -35,6 +35,12 @@ JOBS = [
     ("blindline",  "c2",     SRC / "blindline-c2.webp",          1280),
     ("blindline",  "c3",     SRC / "blindline-c3.webp",          1280),
     ("blindline",  "c4",     SRC / "blindline-c4.webp",          1280),
+    # Flugt: skærmbilleder taget direkte i spillet (renderer.capture), uden skærmtekst
+    ("flugt",      "hero",   SRC / "flugt-hero.webp",            1920),
+    ("flugt",      "s1",     SRC / "flugt-s1.webp",              1280),
+    ("flugt",      "s2",     SRC / "flugt-s2.webp",              1280),
+    ("flugt",      "s3",     SRC / "flugt-s3.webp",              1280),
+    ("flugt",      "s4",     SRC / "flugt-s4.webp",              1280),
 ]
 
 def save(img, dest, width, quality=80):

@@ -276,7 +276,7 @@
         'running': `<button class="btn big" disabled><i class="pulse-dot" style="color:var(--acc)"></i>${esc(t('btn.running'))}</button>`,
         'unavailable': `<button class="btn big" disabled>${esc(t('btn.unavailable'))}</button>`
       }[e.status] || '';
-      const canMenu = e.installed && !e.dev;
+      const canMenu = e.installed && !e.dev && !e.bundled;
       html = `<div class="actions">${main}${canMenu ? `<button class="btn icon nodrag" data-act="menu" aria-label="Menu">${ICON.dots}</button>` : ''}
         ${S.menu && canMenu ? `<div class="menu"><button data-act="folder">${ICON.folder}${esc(t('menu.folder'))}</button><button data-act="repair">${ICON.wrench}${esc(t('menu.repair'))}</button><hr><button class="danger" data-act="uninstall">${ICON.trash}${esc(S.confirm ? t('menu.confirm') : t('menu.uninstall'))}</button></div>` : ''}</div>`;
       if (e.error) html += `<div class="err errbox">${esc(errText(e.error))}</div>`;

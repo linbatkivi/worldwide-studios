@@ -269,3 +269,63 @@ test('forespørgsler over grænsen afvises', async t => {
   const r = await s.call('POST', '/v1/register', { raw: JSON.stringify({ email: 'a@b.dk', pad: 'x'.repeat(40000) }), body: undefined });
   assert.equal(r.status, 413);
 });
+
+test('rangliste: kun et spil-token kan melde en tid, og tiden kan ikke være længere end sessionen', async t => {
+  const s = await boot(); t.after(() => s.close());
+  const { body: reg } = await s.call('POST', '/v1/register', { body: ME });
+  const gt = (await s.call('POST', '/v1/game-token', { token: reg.session.token, body: { game: 'flugt' } })).body.token;
+  assert.equal((await s.call('POST', '/v1/scores/flugt', { token: reg.session.token, body: { ms: 1000 } })).status, 403);      // launcherens login
+  assert.equal((await s.call('POST', '/v1/scores/flugt', { body: { ms: 1000 } })).status, 401);
+  assert.equal((await s.call('POST', '/v1/scores/flugt', { token: gt, body: { ms: 1.5 } })).status, 400);
+  assert.equal((await s.call('POST', '/v1/scores/flugt', { token: gt, body: { ms: -4 } })).status, 400);
+  assert.equal((await s.call('POST', '/v1/scores/flugt', { token: gt, body: { ms: '9' } })).status, 400);
+  assert.equal((await s.call('POST', '/v1/scores/flugt', { token: gt, body: { ms: 3600e3 } })).status, 400);                      // tokenet er et sekund gammelt
+  const ok = await s.call('POST', '/v1/scores/flugt', { token: gt, body: { ms: 800 } });
+  assert.equal(ok.status, 200); assert.equal(ok.body.rank, 1); assert.equal(ok.body.improved, true); assert.equal(ok.body.ms, 800);
+  // et gammelt token må gerne melde en lang tid
+  s.db.prepare('UPDATE sessions SET created_at = created_at - 7200000 WHERE kind = ?').run('game');
+  assert.equal((await s.call('POST', '/v1/scores/flugt', { token: gt, body: { ms: 3600e3 } })).body.ms, 3600e3);
+});
+
+test('rangliste: bedste tid tæller, sortering, egen plads og kun spil med rangliste', async t => {
+  const s = await boot(); t.after(() => s.close());
+  const mk = async (email, name, ms) => {
+    const { body: reg } = await s.call('POST', '/v1/register', { body: { email, password: 'hemmelig-kode-1', displayName: name } });
+    const gt = (await s.call('POST', '/v1/game-token', { token: reg.session.token, body: { game: 'flugt' } })).body.token;
+    s.db.prepare('UPDATE sessions SET created_at = created_at - 7200000 WHERE kind = ?').run('game');
+    for (const m of ms) await s.call('POST', '/v1/scores/flugt', { token: gt, body: { ms: m } });
+    return gt;
+  };
+  const a = await mk('a@example.com', 'Anna', [30000, 90000, 45000]);
+  await mk('b@example.com', 'Bo', [120000]);
+  const c = await mk('c@example.com', 'Cæsar', [10000]);
+  const open = await s.call('GET', '/v1/leaderboard/flugt');
+  assert.equal(open.status, 200); assert.equal(open.body.total, 3); assert.equal(open.body.me, null);
+  assert.deepEqual(open.body.top.map(r => [r.rank, r.name, r.ms]), [[1, 'Bo', 120000], [2, 'Anna', 90000], [3, 'Cæsar', 10000]]);
+  assert.ok(open.body.top.every(r => r.me === false && Object.keys(r).sort().join() === 'at,me,ms,name,rank'));      // ingen id'er eller e-mails
+  const mine = await s.call('GET', '/v1/leaderboard/flugt?limit=2', { token: c });
+  assert.equal(mine.body.top.length, 2); assert.equal(mine.body.me.rank, 3); assert.equal(mine.body.me.ms, 10000);
+  assert.equal((await s.call('GET', '/v1/leaderboard/flugt', { token: a })).body.top.find(r => r.me).name, 'Anna');
+  assert.equal((await s.call('GET', '/v1/leaderboard/flugt', { token: 'wwg_forkert' })).status, 200);             // ugyldigt token vælter ikke listen
+  const worse = await s.call('POST', '/v1/scores/flugt', { token: a, body: { ms: 1000 } });
+  assert.equal(worse.body.improved, false); assert.equal(worse.body.ms, 90000); assert.equal(worse.body.runs, 4);
+  assert.equal((await s.call('GET', '/v1/leaderboard/white-dust')).status, 404);                                     // spil uden rangliste
+  assert.equal((await s.call('GET', '/v1/leaderboard/__proto__')).status, 404);
+});
+
+test('rangliste: ens tid, den der kom først står øverst. Sletning af konto fjerner tiden', async t => {
+  const s = await boot(); t.after(() => s.close());
+  const mk = async (email, name, at) => {
+    const { body: reg } = await s.call('POST', '/v1/register', { body: { email, password: 'hemmelig-kode-1', displayName: name } });
+    const gt = (await s.call('POST', '/v1/game-token', { token: reg.session.token, body: { game: 'flugt' } })).body.token;
+    s.db.prepare('UPDATE sessions SET created_at = created_at - 7200000 WHERE kind = ?').run('game');
+    await s.call('POST', '/v1/scores/flugt', { token: gt, body: { ms: 50000 } });
+    s.db.prepare('UPDATE scores SET updated_at = ? WHERE user_id = (SELECT id FROM users WHERE email = ?)').run(at, email);
+    return reg.session.token;
+  };
+  await mk('late@example.com', 'Sen', 2000);
+  const early = await mk('early@example.com', 'Tidlig', 1000);
+  assert.deepEqual((await s.call('GET', '/v1/leaderboard/flugt')).body.top.map(r => r.name), ['Tidlig', 'Sen']);
+  assert.equal((await s.call('DELETE', '/v1/me', { token: early, body: { password: 'hemmelig-kode-1' } })).status, 204);
+  assert.deepEqual((await s.call('GET', '/v1/leaderboard/flugt')).body.top.map(r => r.name), ['Sen']);
+});

@@ -39,6 +39,14 @@ function createApp({ config, db, log = () => {} }) {
     putSave: db.prepare(`INSERT INTO saves (user_id, game, rev, data, updated_at) VALUES (?, ?, ?, ?, ?)
                          ON CONFLICT(user_id, game) DO UPDATE SET rev = excluded.rev, data = excluded.data, updated_at = excluded.updated_at`),
     allSaves: db.prepare('SELECT game, rev, data, updated_at FROM saves WHERE user_id = ?'),
+    getScore: db.prepare('SELECT best_ms, runs, updated_at FROM scores WHERE user_id = ? AND game = ?'),
+    putScore: db.prepare(`INSERT INTO scores (user_id, game, best_ms, runs, updated_at) VALUES (?, ?, ?, ?, ?)
+                          ON CONFLICT(user_id, game) DO UPDATE SET best_ms = excluded.best_ms, runs = excluded.runs, updated_at = excluded.updated_at`),
+    topScores: db.prepare(`SELECT s.user_id, u.display_name, s.best_ms, s.updated_at FROM scores s JOIN users u ON u.id = s.user_id
+                           WHERE s.game = ? ORDER BY s.best_ms DESC, s.updated_at ASC LIMIT ?`),
+    countScores: db.prepare('SELECT COUNT(*) AS n FROM scores WHERE game = ?'),
+    rankOf: db.prepare('SELECT COUNT(*) + 1 AS rank FROM scores WHERE game = ? AND (best_ms > ? OR (best_ms = ? AND updated_at < ?))'),
+    allScores: db.prepare('SELECT game, best_ms, runs, updated_at FROM scores WHERE user_id = ?'),
     putReset: db.prepare(`INSERT INTO resets (user_id, code_hash, expires_at, attempts) VALUES (?, ?, ?, 0)
                           ON CONFLICT(user_id) DO UPDATE SET code_hash = excluded.code_hash, expires_at = excluded.expires_at, attempts = 0`),
     getReset: db.prepare('SELECT * FROM resets WHERE user_id = ?'),
@@ -176,7 +184,9 @@ function createApp({ config, db, log = () => {} }) {
     const a = auth(req, { sessionOnly: true });
     const saves = {};
     for (const s of Q.allSaves.all(a.user.id)) saves[s.game] = { rev: s.rev, updatedAt: s.updated_at, data: JSON.parse(s.data) };
-    return { body: { user: userJson(a.user, true), saves, exportedAt: Date.now() } };
+    const scores = {};
+    for (const r of Q.allScores.all(a.user.id)) scores[r.game] = { bestMs: r.best_ms, runs: r.runs, updatedAt: r.updated_at };
+    return { body: { user: userJson(a.user, true), saves, scores, exportedAt: Date.now() } };
   });
 
   // Launcheren bytter sit login til et spil-token. Spillet får aldrig adgang til e-mail, adgangskode eller andre spil.
@@ -211,6 +221,45 @@ function createApp({ config, db, log = () => {} }) {
       Q.putSave.run(a.user.id, params.game, curRev + 1, text, now);
       return { body: { rev: curRev + 1, updatedAt: now } };
     });
+  });
+
+  // ---- ranglister: kun for spil med `scores` i games.js ------------------------------------------------------------------
+  function scoreGame(g) { const G = knownGame(g); if (!G.scores) throw new ApiError(404, 'no_leaderboard', 'Spillet har ingen rangliste'); return G; }
+  const rankFor = (game, uid) => {
+    const mine = Q.getScore.get(uid, game);
+    return mine ? { ms: mine.best_ms, runs: mine.runs, rank: Q.rankOf.get(game, mine.best_ms, mine.best_ms, mine.updated_at).rank } : null;
+  };
+
+  // Spillet melder hvor længe runden varede. Kun et spil-token kan det, og tiden kan ikke være længere end tokenet har eksisteret.
+  route('POST', '/v1/scores/:game', async ({ req, params }) => {
+    const G = scoreGame(params.game);
+    const a = auth(req, { game: params.game });
+    if (a.kind !== 'game') throw new ApiError(403, 'forbidden', 'Tider kan kun meldes fra selve spillet');
+    limit('score:' + a.user.id, 120, HOUR);
+    const b = await readJson(req), ms = b.ms;
+    if (!Number.isInteger(ms) || ms < 1 || ms > G.scores.maxMs) throw new ApiError(400, 'invalid_score', 'Ugyldig tid');
+    const row = Q.session.get(a.id);
+    if (ms > Date.now() - row.created_at + 5000) throw new ApiError(400, 'invalid_score', 'Tiden passer ikke med sessionen');
+    const now = Date.now();
+    const improved = tx(db, () => {
+      const cur = Q.getScore.get(a.user.id, params.game);
+      const better = !cur || ms > cur.best_ms;
+      Q.putScore.run(a.user.id, params.game, better ? ms : cur.best_ms, (cur ? cur.runs : 0) + 1, better ? now : cur.updated_at);
+      return better;
+    });
+    return { status: 200, body: { ...rankFor(params.game, a.user.id), improved, total: Q.countScores.get(params.game).n } };
+  });
+
+  // Åben for alle (kun navn og tid). Er der et token med, følger din egen plads med.
+  route('GET', '/v1/leaderboard/:game', async ({ req, params }) => {
+    scoreGame(params.game);
+    limit('lb:' + ipOf(req), 240, 10 * MIN);
+    const url = new URL(req.url, 'http://x');
+    const n = Math.max(1, Math.min(100, parseInt(url.searchParams.get('limit'), 10) || 25));
+    let uid = null;
+    if (req.headers.authorization) { try { uid = auth(req, { game: params.game }).user.id; } catch (e) { /* ugyldigt token: vis listen alligevel */ } }
+    const top = Q.topScores.all(params.game, n).map((r, i) => ({ rank: i + 1, name: r.display_name, ms: r.best_ms, at: r.updated_at, me: r.user_id === uid }));
+    return { body: { game: params.game, total: Q.countScores.get(params.game).n, top, me: uid ? rankFor(params.game, uid) : null } };
   });
 
   route('POST', '/v1/password/forgot', async ({ req }) => {

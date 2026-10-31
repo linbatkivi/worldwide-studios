@@ -6,6 +6,8 @@ const os = require('os');
 
 const wd = require('./lib/runtime-white-dust');
 wd.registerScheme();                                  // skal ske før appen er klar
+const flugt = require('./lib/runtime-bundled');
+flugt.registerScheme();
 
 // Test: WW_USERDATA giver en helt ren kopi, WW_PROFILE en ekstra kopi ved siden af (to spillere på én maskine).
 if (process.env.WW_USERDATA) app.setPath('userData', path.resolve(process.env.WW_USERDATA));
@@ -69,7 +71,7 @@ async function boot() {
 
   const games = new GameManager({
     catalog, auth, store, defaultDir: path.join(userData, 'games'), appVersion: app.getVersion(),
-    runtimes: { 'white-dust': wd }, log
+    runtimes: { 'white-dust': wd, 'bundled': flugt }, log
   });
   games.on('state', e => send('games:state', e));
   games.on('progress', p => send('games:progress', p));

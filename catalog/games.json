@@ -200,6 +200,87 @@
       }
     },
     {
+      "id": "flugt",
+      "name": "Flugt",
+      "studio": "kivi",
+      "status": "released",
+      "genre": {
+        "da": "Jagt i første person",
+        "en": "First-person chase"
+      },
+      "tagline": {
+        "da": "Den kommer efter dig. Den er hurtigere.",
+        "en": "It is coming for you. It is faster."
+      },
+      "description": {
+        "da": "Du står på et stort kort, og alt står stille. Så snart du rører en tast, starter uret, og PNG'en kommer efter dig. Den er hurtigere end dig og bliver ved med at blive det. Brug mure, labyrinten, U-formede gårde og kasser, du selv sætter ud, til at snyde den. Den, der holder længst, står øverst på tavlen.",
+        "en": "You stand on a big map and everything is frozen. The moment you touch a key the clock starts and the PNG comes for you. It is faster than you and keeps getting faster. Use walls, the maze, U-shaped yards and crates you place yourself to fool it. Whoever lasts longest tops the leaderboard."
+      },
+      "facts": [
+        {
+          "k": {
+            "da": "Kort",
+            "en": "Map"
+          },
+          "v": {
+            "da": "500 × 500 meter med labyrint, containerhavn, tårne og pilleskov",
+            "en": "500 × 500 meters with a maze, container yard, towers and pillar forest"
+          }
+        },
+        {
+          "k": {
+            "da": "Tavle",
+            "en": "Leaderboard"
+          },
+          "v": {
+            "da": "Længste tid pr. konto",
+            "en": "Longest time per account"
+          }
+        },
+        {
+          "k": {
+            "da": "Styring",
+            "en": "Controls"
+          },
+          "v": {
+            "da": "WASD, mus, mellemrum, Shift og E",
+            "en": "WASD, mouse, space, Shift and E"
+          }
+        },
+        {
+          "k": {
+            "da": "Udseende",
+            "en": "Look"
+          },
+          "v": {
+            "da": "N64-stil, PNG'en i fuld opløsning",
+            "en": "N64 style, the PNG at full resolution"
+          }
+        }
+      ],
+      "platforms": [
+        "win32",
+        "darwin",
+        "linux"
+      ],
+      "art": {
+        "hero": "flugt/hero.webp",
+        "card": "flugt/hero-sm.webp",
+        "shots": [
+          "flugt/s1.webp",
+          "flugt/s2.webp",
+          "flugt/s3.webp",
+          "flugt/s4.webp"
+        ]
+      },
+      "package": {
+        "kind": "bundled",
+        "runtime": "bundled",
+        "dir": "flugt",
+        "version": "1.0.0"
+      }
+    },
+    {
       "id": "freefall",
       "name": "Freefall",
       "studio": "kivi",

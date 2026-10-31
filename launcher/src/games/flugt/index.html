@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<title>Flugt</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div id="danger"></div>
+<div id="flash"></div>
+
+<div id="hud" hidden>
+  <div id="timer">0:00.00</div>
+  <div id="chase"><span id="dist">0</span> m</div>
+  <div id="cross"><i></i><b id="arrow"></b></div>
+  <div id="say"></div>
+  <div id="stam"><i></i></div>
+  <div id="crates"><span></span><span></span><span></span><span></span><em id="cool"></em></div>
+</div>
+
+<main id="menu" class="screen">
+  <div class="menu-col">
+    <p class="studio">(kivi studios) præsenterer</p>
+    <h1 class="title" data-text="FLUGT" aria-label="Flugt"><span>F</span><span>L</span><span>U</span><span>G</span><span>T</span></h1>
+    <p class="tag">Den kommer efter dig. Den er hurtigere.</p>
+    <nav id="items">
+      <button class="item start" data-go="start">START</button>
+      <button class="item" data-go="board">TAVLE</button>
+      <button class="item" data-go="help">STYRING</button>
+      <button class="item" data-go="settings">INDSTILLINGER</button>
+    </nav>
+  </div>
+  <footer class="foot">
+    <span id="who"></span>
+    <span class="credit">Musik: «Fast fight / battle music» af Ville Nousiainen, CC0</span>
+  </footer>
+</main>
+
+<section id="panel" class="screen" hidden></section>
+
+<section id="over" class="screen" hidden>
+  <div class="over-box">
+    <h2>FANGET!</h2>
+    <div class="big" id="overTime">0:00.00</div>
+    <p id="overNote"></p>
+    <p id="overRank"></p>
+    <div class="row">
+      <button class="item start" id="retry">PRØV IGEN</button>
+      <button class="item" id="toMenu">MENU</button>
+    </div>
+    <p class="hint">Enter: prøv igen · Esc: menu</p>
+  </div>
+</section>
+
+<section id="pause" class="screen" hidden>
+  <div class="over-box">
+    <h2 class="calm">PAUSE</h2>
+    <div class="row">
+      <button class="item start" id="resume">FORTSÆT</button>
+      <button class="item" id="quit">TIL MENUEN</button>
+    </div>
+  </div>
+</section>
+
+<div id="loading"><span>HENTER</span></div>
+
+<script src="config.js" onerror="void 0"></script>
+<script src="js/worldwide.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

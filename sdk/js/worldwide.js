@@ -110,7 +110,10 @@
       reset: ({ email, code, password }) => call('POST', '/v1/password/reset', { auth: false, body: { email, code, password } }),
       gameToken: game => call('POST', '/v1/game-token', { body: { game } }),
       getSave: game => call('GET', '/v1/saves/' + encodeURIComponent(game)),
-      putSave: (game, data, baseRev) => call('PUT', '/v1/saves/' + encodeURIComponent(game), { body: { data, baseRev } })
+      putSave: (game, data, baseRev) => call('PUT', '/v1/saves/' + encodeURIComponent(game), { body: { data, baseRev } }),
+      // ranglister (kun spil der har en): meld en rundes tid i millisekunder, hent top-listen (med din egen plads, hvis du har et token)
+      submitScore: (game, ms) => call('POST', '/v1/scores/' + encodeURIComponent(game), { body: { ms } }),
+      leaderboard: (game, limit = 25) => call('GET', '/v1/leaderboard/' + encodeURIComponent(game) + '?limit=' + limit)
     };
 
     // Til spil: holder styr på revisionen og samler mange ændringer til ét kald. Ved en konflikt (en anden enhed har
