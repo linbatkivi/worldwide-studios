@@ -198,7 +198,7 @@ test('et indbygget spil uden runtime vises som utilgængeligt i stedet for at v�
 });
 
 test('kataloget har Flugt som færdigt, indbygget spil, og alle billeder findes', () => {
-  const cat = require('../src/shared/games.json');
+  const cat = require('../../catalog/games.json');
   const g = cat.games.find(x => x.id === 'flugt');
   assert.ok(g); assert.equal(g.status, 'released'); assert.equal(g.package.kind, 'bundled');
   assert.ok(fs.existsSync(path.join(__dirname, '..', 'src', 'games', g.package.dir, 'index.html')));
