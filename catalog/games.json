@@ -345,36 +345,115 @@
       },
       "package": {
         "kind": "native",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "builds": {
           "darwin-arm64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.1.0/Freefall-macOS-arm64.zip",
-            "sha256": "04e0688c6e4999daef663ab560d01354f1cdb9f738c23845cce4a9dbd47dda56",
-            "size": 118806850,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.2.0/Freefall-macOS-arm64.zip",
+            "sha256": "554615217eed07d46c153d15a84383611689ef3a45667e09cc77ee44c9d2a0cd",
+            "size": 118808149,
             "exec": "Freefall.app/Contents/MacOS/Freefall"
           },
           "darwin-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.1.0/Freefall-macOS-x64.zip",
-            "sha256": "24c72576651fed0478ad471e77fc436e0f1d8127817fbe7dc1b644ed8b35a2c1",
-            "size": 126008085,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.2.0/Freefall-macOS-x64.zip",
+            "sha256": "d48633989de6e240f49759869925cbe6f050bbb94f5fb9e803045509b1eed1fc",
+            "size": 126009390,
             "exec": "Freefall.app/Contents/MacOS/Freefall"
           },
           "win32-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.1.0/Freefall-Windows.zip",
-            "sha256": "8a65f792ea407fe3413a989ebd39ef022593c077773822df6cb12fea2d4f6b87",
-            "size": 143189365,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.2.0/Freefall-Windows.zip",
+            "sha256": "e79aa9875a0f559ed79f481514916baa7923fb9d69825ed780f48e723c1b1a76",
+            "size": 143190194,
             "exec": "Freefall.exe"
           },
           "linux-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.1.0/Freefall-Linux.zip",
-            "sha256": "f44a5ad45366d8f4d8bc03f3413fb7965eb2e98bf8063e30d422592531cb2aef",
-            "size": 119594634,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.2.0/Freefall-Linux.zip",
+            "sha256": "ffbe5409602cf2aea42198491ae3f23d25f037aa84392ae9fbcb04fc91eabcb4",
+            "size": 119595461,
             "exec": "freefall",
             "args": [
               "--no-sandbox"
             ]
           }
         }
+      }
+    },
+    {
+      "id": "offside",
+      "name": "Offside",
+      "studio": "kivi",
+      "status": "in-development",
+      "genre": {
+        "da": "Fodbold",
+        "en": "Football"
+      },
+      "tagline": {
+        "da": "Fodbold med rigtige regler. Dommeren, offside og målmanden følger lovene.",
+        "en": "Football with real rules. The referee, offside and the keeper follow the laws."
+      },
+      "description": {
+        "da": "Elleve mod elleve med en dommer der dømmer frispark, kort, fordel, hånd og offside, målt på kroppen. Bolden følger rigtig fysik med luftmodstand, skrue, vind og højde over havet, og målmanden kaster sig kun efter det, han kan nå. Spil mod computeren, mod en ven eller online med en kode. Værten er serveren, og kampen spoles tilbage, hvis et input kommer for sent, så udfaldet er det samme uanset ping.",
+        "en": "Eleven against eleven with a referee who calls fouls, cards, advantage, handball and offside, measured on the body. The ball follows real physics with drag, spin, wind and altitude, and the keeper only dives for what he can reach. Play the computer, a friend or online with a code. The host is the server, and the match rewinds if an input arrives late, so the outcome is the same whatever the ping."
+      },
+      "facts": [
+        {
+          "k": {
+            "da": "Spillere",
+            "en": "Players"
+          },
+          "v": {
+            "da": "Op til seks online, to lokalt, resten er computeren",
+            "en": "Up to six online, two locally, the rest is the computer"
+          }
+        },
+        {
+          "k": {
+            "da": "Online",
+            "en": "Online"
+          },
+          "v": {
+            "da": "Peer-to-peer med en kode på 5 tegn, værten er serveren",
+            "en": "Peer to peer with a 5 character code, the host is the server"
+          }
+        },
+        {
+          "k": {
+            "da": "Tilstande",
+            "en": "Modes"
+          },
+          "v": {
+            "da": "Hurtig kamp, pokalturnering, træning",
+            "en": "Quick match, cup, practice"
+          }
+        },
+        {
+          "k": {
+            "da": "Hold",
+            "en": "Teams"
+          },
+          "v": {
+            "da": "20 opfundne klubber, 5 stadioner",
+            "en": "20 invented clubs, 5 stadiums"
+          }
+        }
+      ],
+      "platforms": [
+        "win32",
+        "darwin",
+        "linux"
+      ],
+      "art": {
+        "hero": "offside/hero.webp",
+        "card": "offside/hero-sm.webp",
+        "shots": [
+          "offside/s1.webp",
+          "offside/s2.webp",
+          "offside/s3.webp",
+          "offside/s4.webp",
+          "offside/s5.webp"
+        ]
+      },
+      "package": {
+        "kind": "native"
       }
     }
   ]
