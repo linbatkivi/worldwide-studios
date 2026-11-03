@@ -27,8 +27,22 @@ GAMES.blindline = {
   linuxArgs: ['--no-sandbox']
 };
 
+GAMES.freefall = {
+  dir: path.join(process.env.HOME, 'Projekter', 'Freefall'), title: 'Freefall', electron: true,
+  zips: { mac: { arm64: 'dist/Freefall-macOS-arm64.zip', x64: 'dist/Freefall-macOS-x64.zip' }, win: 'dist/Freefall-Windows.zip', linux: 'dist/Freefall-Linux.zip' },
+  execs: { mac: 'Freefall.app/Contents/MacOS/Freefall', win: 'Freefall.exe', linux: 'freefall' },
+  linuxArgs: ['--no-sandbox']
+};
+
+GAMES.offside = {
+  dir: path.join(process.env.HOME, 'Projekter', 'Offside'), title: 'Offside', electron: true,
+  zips: { mac: { arm64: 'dist/Offside-macOS-arm64.zip', x64: 'dist/Offside-macOS-x64.zip' }, win: 'dist/Offside-Windows.zip', linux: 'dist/Offside-Linux.zip' },
+  execs: { mac: 'Offside.app/Contents/MacOS/Offside', win: 'Offside.exe', linux: 'offside' },
+  linuxArgs: ['--no-sandbox']
+};
+
 const [id, version, ...flags] = process.argv.slice(2);
-if (!GAMES[id] || !/^\d+\.\d+\.\d+$/.test(version || '')) { console.error('brug: node tools/publish-game.js complex|blindline 0.2.0 [--skip-build] [--no-push]'); process.exit(1); }
+if (!GAMES[id] || !/^\d+\.\d+\.\d+$/.test(version || '')) { console.error('brug: node tools/publish-game.js complex|blindline|freefall|offside 0.2.0 [--skip-build] [--no-push]'); process.exit(1); }
 const g = GAMES[id], has = f => flags.includes(f);
 const run = (cmd, args, o = {}) => execFileSync(cmd, args, { stdio: ['ignore', 'pipe', 'inherit'], ...o }).toString().trim();
 const sha = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
