@@ -454,30 +454,30 @@
       },
       "package": {
         "kind": "native",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "builds": {
           "darwin-arm64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/offside-v0.1.0/Offside-macOS-arm64.zip",
-            "sha256": "70a0dbf95cc3c417dccfaba171be95c8bbc800f9870c25d04fc29c4b237e88cf",
-            "size": 120386635,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/offside-v0.1.1/Offside-macOS-arm64.zip",
+            "sha256": "0720b7891f485e43123bf3f0af52fd8d39338aec9dbecb50ef6329dc3eb4c9ce",
+            "size": 120541121,
             "exec": "Offside.app/Contents/MacOS/Offside"
           },
           "darwin-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/offside-v0.1.0/Offside-macOS-x64.zip",
-            "sha256": "5b52e7f7dde8abde63daf2580fcd8189645f85913aab91d6424afa9d71d0323b",
-            "size": 127591455,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/offside-v0.1.1/Offside-macOS-x64.zip",
+            "sha256": "6cc685f2d980a74f53282d57fd32fb170ff51a92dc92127f6aba7774f7148e5c",
+            "size": 127745929,
             "exec": "Offside.app/Contents/MacOS/Offside"
           },
           "win32-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/offside-v0.1.0/Offside-Windows.zip",
-            "sha256": "01907a4a135087ed2a247fe70cc60d44de55ba0aaaf4425878ee930b3353188c",
-            "size": 144567184,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/offside-v0.1.1/Offside-Windows.zip",
+            "sha256": "ddf6a24348d80ccb24fa3da87f53fd9a751e8be79cebfd5804ea563ba57a0c43",
+            "size": 144713485,
             "exec": "Offside.exe"
           },
           "linux-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/offside-v0.1.0/Offside-Linux.zip",
-            "sha256": "a82815183f3a5561a3856ba00333089f1757bb3543661051b8c69a171b1ef425",
-            "size": 120866920,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/offside-v0.1.1/Offside-Linux.zip",
+            "sha256": "6f8d9262e13326e4078c903d2389de58dffcece326fea964796132645f24002a",
+            "size": 121013246,
             "exec": "offside",
             "args": [
               "--no-sandbox"
