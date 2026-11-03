@@ -273,6 +273,21 @@ export class Renderer {
     this._seen = ''; this.resize();
   }
 
+  // Skift billedet PNG'en har: null = det oprindelige. m kommer fra chaser-media.js (billede, animeret billede eller video).
+  setChaser(m) {
+    if (this.customMedia && this.customMedia.dispose) this.customMedia.dispose();
+    this.customMedia = m || null;
+    const aspect = m ? m.aspect : 620 / 818;
+    let H = 5.2, W = H * aspect;
+    if (W > 4.2) { W = 4.2; H = W / aspect; }               // brede billeder gøres ikke bredere end PNG'en kan fanges
+    H = Math.max(2.2, H); if (H * aspect > 4.2) W = 4.2; else W = H * aspect;
+    const geo = new THREE.PlaneGeometry(W, H); geo.translate(0, H / 2, 0);
+    this.png.geometry.dispose(); this.png.geometry = geo;
+    this.sim.chaser.h = H;
+    this.pngMat.uniforms.map.value = m ? m.texture : this.pngTex;
+    this.pngReady = true;
+  }
+
   _buildWorld(world) {
     const T = this.tex, s = this.scene;
     s.add(buildStatic(world, T, this.aniso));
@@ -380,6 +395,7 @@ export class Renderer {
   // view: { x, y, z, yaw, pitch, fov, shake, flash, danger }
   draw(dt, view, menu) {
     this.clock += dt;
+    if (this.customMedia && this.customMedia.tick) this.customMedia.tick(dt);
     this.check();
     const sim = this.sim, c = sim.chaser, cam = this.camera;
     cam.position.set(view.x, view.y, view.z);

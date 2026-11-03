@@ -3,6 +3,7 @@ import { Renderer } from './render.js';
 import { Sim, TUNING } from './sim.js';
 import { Audio } from './audio.js';
 import { Account, fmt } from './account.js';
+import { makeMedia, saveFile, loadFile, clearFile } from './chaser-media.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -42,6 +43,38 @@ function who() {
   el.textContent = line;
 }
 
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let mediaName = 'Standard';
+const mediaKey = () => 'chaser:' + account.uid;
+const picker = document.createElement('input');
+picker.type = 'file'; picker.accept = 'image/*,video/*,.gif,.webp,.avif,.svg,.bmp,.ico,.apng,.mov,.mp4,.m4v,.webm,.mkv,.ogv,.3gp'; picker.hidden = true;
+document.body.appendChild(picker);
+picker.addEventListener('change', () => { const f = picker.files && picker.files[0]; picker.value = ''; if (f) setCustom(f); });
+
+function mediaNote(txt, bad) { const n = $('#mediaNote'); if (n) { n.textContent = txt; n.style.color = bad ? '#ff9a8a' : ''; } }
+async function setCustom(file, { persist = true } = {}) {
+  mediaNote('Læser filen ...');
+  try {
+    const m = await makeMedia(file, renderer.aniso);
+    renderer.setChaser(m);
+    mediaName = file.name || 'Egen fil';
+    if (persist) await saveFile(mediaKey(), file).catch(() => mediaNote('Billedet bruges nu, men kunne ikke gemmes til næste gang.', true));
+    const l = $('#mediaName'); if (l) l.textContent = mediaName;
+    if (persist) mediaNote(`${m.kind === 'video' ? 'Videoen' : 'Billedet'} er sat som jagtbillede.`);
+    audio.click();
+  } catch (e) {
+    console.warn(e);
+    mediaNote('Den fil kan ikke læses her. Prøv et andet format (png, jpg, gif, webp, mp4, webm).', true);
+  }
+}
+async function resetCustom() {
+  renderer.setChaser(null); mediaName = 'Standard'; await clearFile(mediaKey());
+  const l = $('#mediaName'); if (l) l.textContent = mediaName; mediaNote('Det oprindelige billede er sat tilbage.'); audio.click();
+}
+// træk en fil ind i vinduet
+addEventListener('dragover', e => { if (mode === 'menu') e.preventDefault(); });
+addEventListener('drop', e => { e.preventDefault(); const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f && mode === 'menu') setCustom(f); });
+
 function openPanel(kind) {
   panelOpen = kind;
   const p = $('#panel'); p.hidden = false; $('#menu').hidden = true;
@@ -62,6 +95,8 @@ function openPanel(kind) {
       ${['master:Samlet lyd', 'music:Musik', 'sfx:Effekter'].map(s => { const [k, l] = s.split(':'); return `<div class="ctl"><span>${l}</span><input type="range" min="0" max="100" value="${Math.round(audio.vol[k] * 100)}" data-vol="${k}"></div>`; }).join('')}
       <div class="ctl"><span>Musefølsomhed</span><input type="range" min="30" max="250" value="${Math.round(settings.sens * 100)}" data-sens></div>
       <div class="ctl"><span>Opløsning</span><div class="seg" data-lines>${[[360, 'LAV'], [480, 'NORMAL'], [720, 'HØJ']].map(([n, l]) => `<button data-n="${n}" class="${settings.lines === n ? 'on' : ''}">${l}</button>`).join('')}</div></div>
+      <div class="ctl"><span>Jagtbillede<br><small id="mediaName">${esc(mediaName)}</small></span><div class="seg"><button data-media="pick">VÆLG FIL</button><button data-media="reset">STANDARD</button></div></div>
+      <p class="note" id="mediaNote">Billeder, GIF, SVG og videoer (mp4, webm, mov ...). Du kan også trække en fil ind i vinduet. Filen bliver på denne maskine.</p>
       <p class="note">Verdenen tegnes i få linjer med N64-farver. PNG'en tegnes altid i skærmens fulde opløsning.</p>${back}</div>`;
   } else if (kind === 'board') {
     p.innerHTML = `<div class="card"><h2>TAVLE</h2><div id="boardBody"><p>Henter ...</p></div>${back}</div>`;
@@ -226,6 +261,8 @@ document.addEventListener('click', e => {
   if (e.target.closest('#retry')) { audio.click(); retry(); }
   else if (e.target.closest('#toMenu') || e.target.closest('#quit')) { audio.click(); toMenu(); }
   else if (e.target.closest('#resume')) { audio.click(); pause(false); }
+  const med = e.target.closest('[data-media]');
+  if (med) { if (med.dataset.media === 'pick') picker.click(); else resetCustom(); return; }
   const seg = e.target.closest('[data-lines] button');
   if (seg) { settings.lines = +seg.dataset.n; saveSettings(); renderer.userSet = true; renderer.setLines(settings.lines); $$('[data-lines] button').forEach(b => b.classList.toggle('on', b === seg)); audio.click(); }
 });
@@ -347,7 +384,8 @@ async function boot() {
   renderer.userSet = false;
   if (settings.lines !== 480) { renderer.userSet = true; renderer.setLines(settings.lines); }
   who();
-  if (debug) window.__flugt = { sim, renderer, audio, account, enterGame, toMenu, view, settings };
+  loadFile(mediaKey()).then(r => { if (r && r.blob) { const f = new File([r.blob], r.name, { type: r.type }); setCustom(f, { persist: false }); } }).catch(() => {});
+  if (debug) window.__flugt = { sim, renderer, audio, account, enterGame, toMenu, view, settings, setCustom, resetCustom };
   // vent på billedet, før indlæsningsskærmen forsvinder
   const t0 = performance.now();
   while (!renderer.pngReady && performance.now() - t0 < 4000) await new Promise(r => setTimeout(r, 30));

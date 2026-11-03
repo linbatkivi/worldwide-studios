@@ -105,3 +105,4 @@ table.rows { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
 
 @media (max-width: 760px) { #menu { padding: 0 6vw; } .item { font-size: 13px; } .item.start { font-size: 18px; } .foot { flex-direction: column; } .credit { text-align: left; } }
 @media (prefers-reduced-motion: reduce) { .title span, .item::before, #say, #loading span { animation: none; } }
+.ctl small { display: block; margin-top: 6px; font-size: 8px; color: #b9c8ff; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
