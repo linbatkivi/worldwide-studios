@@ -256,11 +256,16 @@ function go(what) {
   else openPanel(what);
 }
 
+// Afslut spil: kun når spillet kører i launcheren (window.WWHost)
+function quitGame() { Promise.resolve(account && account.flush && account.flush()).catch(() => {}).finally(() => window.WWHost && window.WWHost.quit()); }
+if (window.WWHost) document.querySelectorAll('#exit, #exitPause').forEach(b => { b.style.display = ''; });
+
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-go]'); if (b) { go(b.dataset.go); return; }
   if (e.target.closest('#retry')) { audio.click(); retry(); }
   else if (e.target.closest('#toMenu') || e.target.closest('#quit')) { audio.click(); toMenu(); }
   else if (e.target.closest('#resume')) { audio.click(); pause(false); }
+  else if (e.target.closest('#exit') || e.target.closest('#exitPause')) { audio.click(); quitGame(); }
   const med = e.target.closest('[data-media]');
   if (med) { if (med.dataset.media === 'pick') picker.click(); else resetCustom(); return; }
   const seg = e.target.closest('[data-lines] button');

@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { safeJoin } = require('./util');
+const { PRELOAD, attachQuit } = require('./host-bridge');
 
 const PARTITION = 'persist:white-dust';          // eget lager (localStorage m.m.), adskilt fra launcherens eget
 const MIME = {
@@ -116,9 +117,10 @@ async function launch({ root, version, account, appVersion, onExit, moduleLink, 
   win = new BrowserWindow({
     width: 1600, height: 900, minWidth: 1024, minHeight: 600, title: 'White Dust', backgroundColor: '#f4f4f2',
     autoHideMenuBar: true, show: false,
-    webPreferences: { partition: PARTITION, contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false }
+    webPreferences: { preload: PRELOAD, partition: PARTITION, contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false }
   });
   win.removeMenu();
+  const detachQuit = attachQuit(win);
   win.once('ready-to-show', () => { win.show(); win.setFullScreen(true); });
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https?:/.test(url)) shell.openExternal(url); return { action: 'deny' }; });
   win.webContents.on('will-navigate', (e, url) => { if (!url.startsWith('wd://')) { e.preventDefault(); if (/^https?:/.test(url)) shell.openExternal(url); } });
@@ -139,7 +141,7 @@ async function launch({ root, version, account, appVersion, onExit, moduleLink, 
       new Promise(r => setTimeout(r, 3500))
     ]).finally(() => { try { win.destroy(); } catch (er) {} });
   });
-  win.on('closed', () => stop('closed'));
+  win.on('closed', () => { detachQuit(); stop('closed'); });
   win.loadURL('wd://game/');
   return { stop, window: win, port };
 }

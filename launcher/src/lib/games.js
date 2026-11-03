@@ -166,6 +166,7 @@ class GameManager extends EventEmitter {
       const st = this.store.get(), s = st.stats[id] = st.stats[id] || { playSeconds: 0 };
       s.playSeconds = (s.playSeconds || 0) + (Date.now() - startedAt) / 1000; s.lastPlayed = Date.now();
       this.store.save(); this.log('[spil]', id, 'lukket', code); this._emit(id);
+      if (this.settings.autoUpdate) this.checkOne(id).then(() => { if (this.latest[id] && !this.running[id] && !this.busy[id]) this.install(id); });   // ny udgave er klar til næste start
     };
     delete this.errors[id];
     this.running[id] = { handle: {}, startedAt };           // markeres straks, så man ikke kan starte to gange
@@ -200,6 +201,15 @@ class GameManager extends EventEmitter {
     child.once('error', e => { this.errors[id] = { code: 'launch_failed', message: e.message }; onExit('error'); });
     child.once('exit', code => onExit(code));
     return { stop: () => { try { child.kill(); } catch (e) {} }, pid: child.pid };
+  }
+
+  // Afslut spillet fra launcheren: vinduet lukkes pænt (fremgang nå at blive sendt), og tager det for lang tid, stoppes det.
+  quit(id) {
+    const r = this.running[id]; if (!r) return;
+    const h = r.handle || {};
+    if (h.window && !h.window.isDestroyed()) { try { h.window.close(); } catch (e) {} }
+    else if (h.stop) h.stop();
+    const t = setTimeout(() => { if (this.running[id] && h.stop) h.stop(); }, 6000); if (t.unref) t.unref();
   }
 
   stopAll() { for (const r of Object.values(this.running)) try { r.handle.stop && r.handle.stop(); } catch (e) {} }

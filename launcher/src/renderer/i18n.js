@@ -18,7 +18,7 @@
       'status.ready': 'Klar', 'status.update': 'Opdatering klar', 'status.installing': 'Installerer', 'status.updating': 'Opdaterer', 'status.repairing': 'Reparerer',
       'status.running': 'Kører', 'status.not-installed': 'Ikke installeret', 'status.unavailable': 'Kommer senere',
       'chip.released': 'Udgivet', 'chip.in-development': 'Under udvikling', 'chip.dev': 'Fra projektmappe',
-      'btn.install': 'Installér', 'btn.play': 'Spil', 'btn.update': 'Opdatér', 'btn.cancel': 'Afbryd', 'btn.running': 'Kører', 'btn.unavailable': 'Ingen udgave endnu',
+      'btn.install': 'Installér', 'btn.play': 'Spil', 'btn.update': 'Opdatér', 'btn.cancel': 'Afbryd', 'btn.running': 'Kører', 'btn.quit': 'Afslut spil', 'btn.unavailable': 'Ingen udgave endnu',
       'phase.prepare': 'Gør klar', 'phase.download': 'Henter', 'phase.extract': 'Pakker ud', 'phase.finalize': 'Lægger filerne på plads', 'phase.verify': 'Tjekker filer',
       'meta.version': 'Version', 'meta.size': 'Fylder', 'meta.last': 'Sidst spillet', 'meta.time': 'Spilletid', 'meta.never': 'Aldrig', 'meta.none': '–',
       'ago.today': 'i dag', 'ago.yesterday': 'i går', 'ago.days': 'for {n} dage siden',
@@ -43,7 +43,7 @@
       'set.devPath': 'Mappe', 'set.devGodot': 'Godot-program', 'set.devPick': 'Vælg',
       'set.about': 'Om', 'set.version': 'Launcher', 'set.server': 'Kontoserver', 'set.keychain': 'Login gemmes i', 'set.keychain.yes': 'systemets nøglering', 'set.keychain.no': 'en fil kun du kan læse',
       'update.ready': 'Version {v} er klar.', 'update.restart': 'Genstart og opdatér', 'update.manual': 'Version {v} er ude.', 'update.get': 'Hent den',
-      'offline.banner': 'Ingen forbindelse. Du kan stadig spille, men din fremgang gemmes først, når du er online igen.',
+      'offline.banner': 'Kontoserveren svarer ikke lige nu. Spillene virker stadig, og din fremgang sendes, så snart den svarer igen.',
       'lightbox.close': 'Luk'
     },
     en: {
@@ -62,7 +62,7 @@
       'status.ready': 'Ready', 'status.update': 'Update ready', 'status.installing': 'Installing', 'status.updating': 'Updating', 'status.repairing': 'Repairing',
       'status.running': 'Running', 'status.not-installed': 'Not installed', 'status.unavailable': 'Coming later',
       'chip.released': 'Released', 'chip.in-development': 'In development', 'chip.dev': 'From project folder',
-      'btn.install': 'Install', 'btn.play': 'Play', 'btn.update': 'Update', 'btn.cancel': 'Cancel', 'btn.running': 'Running', 'btn.unavailable': 'No build yet',
+      'btn.install': 'Install', 'btn.play': 'Play', 'btn.update': 'Update', 'btn.cancel': 'Cancel', 'btn.running': 'Running', 'btn.quit': 'Quit game', 'btn.unavailable': 'No build yet',
       'phase.prepare': 'Getting ready', 'phase.download': 'Downloading', 'phase.extract': 'Unpacking', 'phase.finalize': 'Putting files in place', 'phase.verify': 'Checking files',
       'meta.version': 'Version', 'meta.size': 'Size', 'meta.last': 'Last played', 'meta.time': 'Play time', 'meta.never': 'Never', 'meta.none': '–',
       'ago.today': 'today', 'ago.yesterday': 'yesterday', 'ago.days': '{n} days ago',
@@ -87,7 +87,7 @@
       'set.devPath': 'Folder', 'set.devGodot': 'Godot app', 'set.devPick': 'Choose',
       'set.about': 'About', 'set.version': 'Launcher', 'set.server': 'Account server', 'set.keychain': 'Login is stored in', 'set.keychain.yes': 'the system keychain', 'set.keychain.no': 'a file only you can read',
       'update.ready': 'Version {v} is ready.', 'update.restart': 'Restart and update', 'update.manual': 'Version {v} is out.', 'update.get': 'Get it',
-      'offline.banner': 'No connection. You can still play, but your progress is only saved once you are back online.',
+      'offline.banner': 'The account server is not answering right now. Games still work, and your progress is sent as soon as it answers again.',
       'lightbox.close': 'Close'
     }
   };

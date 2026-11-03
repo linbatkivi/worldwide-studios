@@ -167,30 +167,30 @@
       },
       "package": {
         "kind": "native",
-        "version": "0.3.2",
+        "version": "0.3.3",
         "builds": {
           "darwin-arm64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.2/Blindline-macOS-arm64.zip",
-            "sha256": "d530a731d4a27d5b5f98ae9cdf3aa66241b2b3033a544a4c7e83ceff425660e7",
-            "size": 127588971,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.3/Blindline-macOS-arm64.zip",
+            "sha256": "5502a80c2247f11532c2da8ca46d110fab83472d9479b224741ca9c41cb52b8a",
+            "size": 127589081,
             "exec": "Blindline.app/Contents/MacOS/Blindline"
           },
           "darwin-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.2/Blindline-macOS-x64.zip",
-            "sha256": "98eb32c25614909c4e2250e6f56c075ba39d11bec1eba4610bfb8b51b25084a0",
-            "size": 134790221,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.3/Blindline-macOS-x64.zip",
+            "sha256": "4690168c006cdb65e023d69b3bd41a08dd8177c69c3c246d13178557eacf95e1",
+            "size": 134790332,
             "exec": "Blindline.app/Contents/MacOS/Blindline"
           },
           "win32-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.2/Blindline-Windows.zip",
-            "sha256": "4083f8b44884d55176ebd960029acdbe63e3b152511360186718d18909ff9301",
-            "size": 151681270,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.3/Blindline-Windows.zip",
+            "sha256": "76c57c3dea8ac1c8dd834e48a7f450af15c23ebb71a1eb725788d8692bb0a98a",
+            "size": 151681416,
             "exec": "Blindline.exe"
           },
           "linux-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.2/Blindline-Linux.zip",
-            "sha256": "cb83dac5d9e49b7da556e357d5a7185aad54d455ddf72cd39bc07bc954e3ab7a",
-            "size": 128086772,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.3/Blindline-Linux.zip",
+            "sha256": "cbbccf5cbc02acb8af5e2dd6fd1547df3984c0f8e3ed83ce673f92982553694c",
+            "size": 128086920,
             "exec": "blindline",
             "args": [
               "--no-sandbox"
@@ -349,26 +349,26 @@
         "builds": {
           "darwin-arm64": {
             "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.2.0/Freefall-macOS-arm64.zip",
-            "sha256": "554615217eed07d46c153d15a84383611689ef3a45667e09cc77ee44c9d2a0cd",
-            "size": 118808149,
+            "sha256": "3a70f3516d610eadc0027c4c804e21cf25b133877c0fe73909af5d71303215b0",
+            "size": 118808193,
             "exec": "Freefall.app/Contents/MacOS/Freefall"
           },
           "darwin-x64": {
             "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.2.0/Freefall-macOS-x64.zip",
-            "sha256": "d48633989de6e240f49759869925cbe6f050bbb94f5fb9e803045509b1eed1fc",
-            "size": 126009390,
+            "sha256": "05bfaed03003cdfcfd3b472d4b4d10f798495abc19c4cc56a8ce0d506e86a70f",
+            "size": 126009434,
             "exec": "Freefall.app/Contents/MacOS/Freefall"
           },
           "win32-x64": {
             "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.2.0/Freefall-Windows.zip",
-            "sha256": "e79aa9875a0f559ed79f481514916baa7923fb9d69825ed780f48e723c1b1a76",
-            "size": 143190194,
+            "sha256": "38fd59d62ac1d94e6116ff2e0d8d4897e06b4dcad15a3d0fcb0c55f9a569eadf",
+            "size": 143190399,
             "exec": "Freefall.exe"
           },
           "linux-x64": {
             "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/freefall-v0.2.0/Freefall-Linux.zip",
-            "sha256": "ffbe5409602cf2aea42198491ae3f23d25f037aa84392ae9fbcb04fc91eabcb4",
-            "size": 119595461,
+            "sha256": "baca597adf1cc22f525e2a1ea0efef7906e58b488896e9c5768841e0edd2a015",
+            "size": 119595668,
             "exec": "freefall",
             "args": [
               "--no-sandbox"

@@ -273,7 +273,7 @@
         'ready': `<button class="btn primary big" data-act="play">${ICON.play}${esc(t('btn.play'))}</button>`,
         'update': `<button class="btn primary big" data-act="install">${esc(t('btn.update'))}</button><button class="btn big" data-act="play">${esc(t('btn.play'))}</button>`,
         'not-installed': `<button class="btn primary big" data-act="install">${esc(t('btn.install'))}</button>`,
-        'running': `<button class="btn big" disabled><i class="pulse-dot" style="color:var(--acc)"></i>${esc(t('btn.running'))}</button>`,
+        'running': `<button class="btn big" disabled><i class="pulse-dot" style="color:var(--acc)"></i>${esc(t('btn.running'))}</button><button class="btn big" data-act="quit">${esc(t('btn.quit'))}</button>`,
         'unavailable': `<button class="btn big" disabled>${esc(t('btn.unavailable'))}</button>`
       }[e.status] || '';
       const canMenu = e.installed && !e.dev && !e.bundled;
@@ -383,6 +383,7 @@
         case 'install': await ww.games.install(id); break;
         case 'cancel': await ww.games.cancel(id); break;
         case 'play': await ww.games.play(id); break;
+        case 'quit': await ww.games.quit(id); break;
         case 'menu': ev.stopPropagation(); S.menu = !S.menu; S.confirm = false; renderDynamic(); break;
         case 'folder': S.menu = false; renderDynamic(); await ww.games.reveal(id); break;
         case 'repair': S.menu = false; renderDynamic(); await ww.games.repair(id); break;

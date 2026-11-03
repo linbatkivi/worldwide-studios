@@ -41,6 +41,7 @@ contextBridge.exposeInMainWorld('ww', {
     install: id => call('games:install', id),
     cancel: id => call('games:cancel', id),
     play: id => call('games:play', id),
+    quit: id => call('games:quit', id),
     uninstall: id => call('games:uninstall', id),
     repair: id => call('games:repair', id),
     reveal: id => call('games:reveal', id),

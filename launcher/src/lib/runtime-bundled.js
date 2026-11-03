@@ -5,6 +5,7 @@ const { BrowserWindow, protocol, session, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const { safeJoin } = require('./util');
+const { PRELOAD, attachQuit } = require('./host-bridge');
 
 const PARTITION = 'persist:flugt';             // eget lager (indstillinger, lokale tider), adskilt fra launcherens
 const SCHEME = 'flugt';
@@ -60,9 +61,10 @@ async function launch({ dir, title, account, appVersion, onExit, log = () => {} 
   win = new BrowserWindow({
     width: 1600, height: 900, minWidth: 960, minHeight: 540, title: title || 'Flugt', backgroundColor: '#12102a',
     autoHideMenuBar: true, show: false,
-    webPreferences: { partition: PARTITION, contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false, autoplayPolicy: 'no-user-gesture-required' }
+    webPreferences: { preload: PRELOAD, partition: PARTITION, contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false, autoplayPolicy: 'no-user-gesture-required' }
   });
   win.removeMenu();
+  const detachQuit = attachQuit(win);
   win.once('ready-to-show', () => { win.show(); if (!process.env.FLUGT_WINDOWED) win.setFullScreen(true); });
   win.webContents.setWindowOpenHandler(({ url }) => { if (/^https?:/.test(url)) shell.openExternal(url); return { action: 'deny' }; });
   win.webContents.on('will-navigate', (e, url) => { if (!url.startsWith(SCHEME + '://')) { e.preventDefault(); if (/^https?:/.test(url)) shell.openExternal(url); } });
@@ -73,7 +75,7 @@ async function launch({ dir, title, account, appVersion, onExit, log = () => {} 
     else if (mod && !i.shift && i.key.toLowerCase() === 'r') { win.webContents.reload(); e.preventDefault(); }
     else if (mod && i.shift && i.key.toLowerCase() === 'i' && (process.env.FLUGT_DEBUG || process.env.WW_DEVTOOLS)) { win.webContents.toggleDevTools(); e.preventDefault(); }
   });
-  win.on('closed', () => stop('closed'));
+  win.on('closed', () => { detachQuit(); stop('closed'); });
   win.loadURL(`${SCHEME}://game/`);
   return { stop, window: win };
 }

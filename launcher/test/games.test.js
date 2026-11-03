@@ -204,3 +204,20 @@ test('kataloget har Flugt som færdigt, indbygget spil, og alle billeder findes'
   assert.ok(fs.existsSync(path.join(__dirname, '..', 'src', 'games', g.package.dir, 'index.html')));
   for (const f of [g.art.hero, g.art.card, ...g.art.shots, ...g.art.shots.map(s => s.replace('.webp', '-sm.webp'))]) assert.ok(fs.existsSync(path.join(__dirname, '..', 'src', 'renderer', 'art', f)), f);
 });
+
+test('Afslut spil lukker vinduet pænt, og en ny udgave hentes automatisk når spillet er lukket', async t => {
+  const files = { 'server.js': Buffer.from('1'), 'public/index.html': Buffer.from('<html>') };
+  const v = { v: 'v1' }; const o = await origin(files, v); t.after(o.close);
+  const { gm, dir, launches } = setup({ games: [WEB(o.url)], settings: { autoUpdate: true } }); t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  await gm.install('white-dust');
+  await gm.play('white-dust');
+  let closed = 0;
+  gm.running['white-dust'].handle = { window: { isDestroyed: () => false, close: () => { closed++; launches[0].onExit('closed'); } }, stop() { throw new Error('skal ikke tvinges'); } };
+  v.v = 'v2'; files['server.js'] = Buffer.from('2');
+  gm.quit('white-dust');
+  assert.equal(closed, 1);
+  assert.equal(gm.entry('white-dust').status === 'running', false);
+  for (let i = 0; i < 100 && gm.entry('white-dust').version !== 'v2'; i++) await new Promise(r => setTimeout(r, 50));
+  assert.equal(gm.entry('white-dust').version, 'v2');
+  gm.quit('white-dust');          // ingen spil kører: sker ikke noget
+});
