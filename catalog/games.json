@@ -167,30 +167,30 @@
       },
       "package": {
         "kind": "native",
-        "version": "0.3.4",
+        "version": "0.3.5",
         "builds": {
           "darwin-arm64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.4/Blindline-macOS-arm64.zip",
-            "sha256": "27da551b1b9c80bb0587f714e3cfb738398f000ababa904fc3c008790a97ee1a",
-            "size": 127589186,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.5/Blindline-macOS-arm64.zip",
+            "sha256": "4db18a9b6a2bcc82752f850c5d234357ef962d001d054c60906d07d4b731ad58",
+            "size": 127589147,
             "exec": "Blindline.app/Contents/MacOS/Blindline"
           },
           "darwin-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.4/Blindline-macOS-x64.zip",
-            "sha256": "e265fa91978d0e48642d20e8d0dd2d65800f24999b0cfb2067a83015e143fc82",
-            "size": 134790427,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.5/Blindline-macOS-x64.zip",
+            "sha256": "3f5d00aa0ffce4491e1e8e10386c8e8bb481ebc36ac14daf7754b7e5084c9e6c",
+            "size": 134790392,
             "exec": "Blindline.app/Contents/MacOS/Blindline"
           },
           "win32-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.4/Blindline-Windows.zip",
-            "sha256": "276910f02d1c7cdac8fe8174018e5981663fd679bd5a735d3f7ee81f07935037",
-            "size": 151681563,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.5/Blindline-Windows.zip",
+            "sha256": "43a9099468d556b2c1a0276aac15adff42fb9d57b883cd402498d50604a3cc26",
+            "size": 151681588,
             "exec": "Blindline.exe"
           },
           "linux-x64": {
-            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.4/Blindline-Linux.zip",
-            "sha256": "416f82fb455fb60793089b0f0915732b5dfb2b9ce3aa547fea4c07c755703b48",
-            "size": 128087066,
+            "url": "https://github.com/linbatkivi/worldwide-studios/releases/download/blindline-v0.3.5/Blindline-Linux.zip",
+            "sha256": "357a4b179d1bbfa624ae029cb24b346c9e7debb45da8a43f523bdadbef8f5b0b",
+            "size": 128087090,
             "exec": "blindline",
             "args": [
               "--no-sandbox"
