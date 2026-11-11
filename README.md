@@ -17,7 +17,7 @@ Spillene ligger i hvert sit repo og er koblet på kontoen:
 | White Dust | [`white_dust`](https://github.com/linbatkivi/white_dust) | Node + browser, kører i launcheren | Filer fra spillets manifest, kun det der er ændret |
 | Complex | `complex` (privat) | Godot 4.7 | Zip pr. platform på en release her i repoet |
 
-Hjemmesiden: <https://linbatkivi.github.io/worldwide-studios/>
+Hjemmesiden: <https://linbatkivi.github.io/>
 
 ## Sådan hænger det sammen
 

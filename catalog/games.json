@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "api": "https://worldwide-id.fly.dev",
-  "site": "https://linbatkivi.github.io/worldwide-studios/",
+  "site": "https://linbatkivi.github.io/",
   "launcher": {
     "repo": "linbatkivi/worldwide-studios",
     "assets": {

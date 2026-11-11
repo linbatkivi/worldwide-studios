@@ -10,6 +10,7 @@
     "icons": "launcher/node_modules/.bin/electron tools/make-icons.js",
     "sync-assets": "node tools/sync-assets.js",
     "publish:complex": "node tools/publish-game.js complex",
-    "deploy:api": "tools/deploy-api.sh"
+    "deploy:api": "tools/deploy-api.sh",
+    "deploy:site": "tools/deploy-site.sh"
   }
 }
