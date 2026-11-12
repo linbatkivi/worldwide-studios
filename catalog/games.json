@@ -32,12 +32,12 @@
         "en": "Tactical multiplayer FPS"
       },
       "tagline": {
-        "da": "SWAT mod Hijackers. Bombe, købsfase og fem mod fem.",
-        "en": "SWAT versus Hijackers. Bomb, buy phase and five on five."
+        "da": "SWAT mod Hijackers. Fem mod fem, en bombe og tolv sekunders købsfase.",
+        "en": "SWAT versus Hijackers. Five on five, one bomb and a twelve second buy phase."
       },
       "description": {
-        "da": "Hver runde starter med en købsfase. Derefter skal Hijackers plante bomben, og SWAT skal stoppe dem. Første hold til syv runder vinder. Du er selv vært for dine kampe, så der er ingen server at vente på.",
-        "en": "Every round opens with a buy phase. Then the Hijackers plant the bomb and SWAT stops them. First team to seven rounds wins. You host your own matches, so there is no server to wait for."
+        "da": "Hijackers skal plante C4 på A eller B og holde den, til den går af. SWAT skal stoppe dem eller desarmere bomben bagefter. Hver runde åbner med en købsfase, og første hold til syv runder vinder. Holdene bytter side efter runde seks. Den, der laver et party, er selv vært, så der er ingen server at vente på. Ved siden af kampene er der karriere med ranks, missioner og trofæer.",
+        "en": "The Hijackers plant C4 on A or B and hold it until it goes off. SWAT has to stop them, or defuse the bomb afterwards. Every round opens with a buy phase, and the first team to seven rounds wins. The teams switch sides after round six. Whoever creates a party is the host, so there is no server to wait for. Outside the matches there is a career with ranks, missions and trophies."
       },
       "facts": [
         {
@@ -46,8 +46,8 @@
             "en": "Teams"
           },
           "v": {
-            "da": "5 mod 5, med bots hvis I er for få",
-            "en": "5 v 5, with bots if you are short"
+            "da": "5 mod 5, bots fylder op",
+            "en": "5 v 5, bots fill the gaps"
           }
         },
         {
@@ -55,7 +55,7 @@
             "da": "Baner",
             "en": "Maps"
           },
-          "v": "Bureau · Niseko · Fattoria"
+          "v": "Bureau · Niseko · Fattoria · Valkyrie"
         },
         {
           "k": {
@@ -84,14 +84,14 @@
         "linux"
       ],
       "art": {
-        "hero": "white-dust/hero.webp",
-        "card": "white-dust/hero-sm.webp",
+        "hero": "white-dust/hero-20261112.webp",
+        "card": "white-dust/hero-20261112-sm.webp",
         "shots": [
-          "white-dust/s1.webp",
-          "white-dust/s2.webp",
-          "white-dust/s3.webp",
-          "white-dust/s4.webp",
-          "white-dust/s5.webp"
+          "white-dust/s1-20261112.webp",
+          "white-dust/s2-20261112.webp",
+          "white-dust/s3-20261112.webp",
+          "white-dust/s4-20261112.webp",
+          "white-dust/s5-20261112.webp"
         ]
       },
       "package": {
@@ -99,6 +99,11 @@
         "runtime": "white-dust",
         "manifest": "https://linbatkivi.github.io/white-dust-web/game/manifest.json",
         "source": "https://github.com/linbatkivi/white_dust"
+      },
+      "content": {
+        "reviewedFor": "83f4500",
+        "hash": "f181b7793d4bc506",
+        "reviewedAt": "2026-11-12"
       }
     },
     {
@@ -107,26 +112,36 @@
       "studio": "kivi",
       "status": "in-development",
       "genre": {
-        "da": "Co-op rally",
-        "en": "Co-op rally"
+        "da": "Åben verden og rally",
+        "en": "Open world and rally"
       },
       "tagline": {
-        "da": "Chaufføren kan næsten ikke se. Navigatøren har kortet.",
-        "en": "The driver can barely see. The navigator has the map."
+        "da": "En verden på 24 km at køre, gå og sejle i. Og rally, hvor chaufføren næsten ikke kan se.",
+        "en": "A 24 km world to drive, walk and sail in. And rally, where the driver can barely see."
       },
       "description": {
-        "da": "Chaufføren kører i en så tæt støvtåge, at vejen næsten forsvinder. Navigatøren sidder med kortet og råber sving og farer. Kør solo, eller start en lobby og få op til fire besætninger med. Hvert løb har nedtælling, kontrolpunkter og tider.",
-        "en": "The driver races through dust so thick the road almost disappears. The navigator holds the map and calls out the corners and hazards. Drive solo, or start a lobby with up to four crews. Every race has a countdown, checkpoints and times."
+        "da": "I den åbne verden kører du fra storbyen ud til småbyer, landsbyer, motorveje og stier. Du kan stige ud af bilen og gå, gå ind i butikker og tage en båd fra molerne. Et døgn varer tyve minutter, og op til otte kan være med online via en kode. Rally er en anden måde at spille på: chaufføren kører i tæt støv, og navigatøren læser kortet og siger sving og farer højt. Der er to baner med kontrolpunkter og tider, og op til fire biler kan køre samtidig.",
+        "en": "In the open world you drive from the big city out to towns, villages, motorways and paths. You can step out of the car and walk, go into shops and take a boat from the piers. A day lasts twenty minutes, and up to eight can join online with a code. Rally is another way to play: the driver races through thick dust while the navigator reads the map and calls the corners and hazards. There are two tracks with checkpoints and times, and up to four cars can race at once."
       },
       "facts": [
         {
           "k": {
-            "da": "Besætning",
-            "en": "Crew"
+            "da": "Verden",
+            "en": "World"
           },
           "v": {
-            "da": "Chauffør og navigatør, op til fire biler",
-            "en": "Driver and navigator, up to four cars"
+            "da": "24,3 km med 1 storby, 20 byer og 60 landsbyer",
+            "en": "24.3 km with 1 city, 20 towns and 60 villages"
+          }
+        },
+        {
+          "k": {
+            "da": "Køretøjer",
+            "en": "Vehicles"
+          },
+          "v": {
+            "da": "Bil, til fods og båd",
+            "en": "Car, on foot and boat"
           }
         },
         {
@@ -135,18 +150,18 @@
             "en": "Online"
           },
           "v": {
-            "da": "Peer-to-peer med en kode på 5 tegn",
-            "en": "Peer to peer with a 5 character code"
+            "da": "Peer-to-peer med en kode, op til otte i verden",
+            "en": "Peer to peer with a code, up to eight in the world"
           }
         },
         {
           "k": {
-            "da": "Udseende",
-            "en": "Look"
+            "da": "Rally",
+            "en": "Rally"
           },
           "v": {
-            "da": "N64-stil, 240 linjer",
-            "en": "N64 style, 240 lines"
+            "da": "Chauffør og navigatør, to baner, op til fire biler",
+            "en": "Driver and navigator, two tracks, up to four cars"
           }
         }
       ],
@@ -156,13 +171,14 @@
         "linux"
       ],
       "art": {
-        "hero": "blindline/hero2.webp",
-        "card": "blindline/hero2-sm.webp",
+        "hero": "blindline/hero-20261112.webp",
+        "card": "blindline/hero-20261112-sm.webp",
         "shots": [
-          "blindline/c1.webp",
-          "blindline/c2.webp",
-          "blindline/c3.webp",
-          "blindline/c4.webp"
+          "blindline/s1-20261112.webp",
+          "blindline/s2-20261112.webp",
+          "blindline/s3-20261112.webp",
+          "blindline/s4-20261112.webp",
+          "blindline/s5-20261112.webp"
         ]
       },
       "package": {
@@ -197,6 +213,11 @@
             ]
           }
         }
+      },
+      "content": {
+        "reviewedFor": "0.8.0",
+        "hash": "d1e1e719b329a9eb",
+        "reviewedAt": "2026-11-12"
       }
     },
     {
@@ -213,8 +234,8 @@
         "en": "It is coming for you. It is faster."
       },
       "description": {
-        "da": "Du står på et stort kort, og alt står stille. Så snart du rører en tast, starter uret, og PNG'en kommer efter dig. Den er hurtigere end dig og bliver ved med at blive det. Brug mure, labyrinten, U-formede gårde og kasser, du selv sætter ud, til at snyde den. Den, der holder længst, står øverst på tavlen.",
-        "en": "You stand on a big map and everything is frozen. The moment you touch a key the clock starts and the PNG comes for you. It is faster than you and keeps getting faster. Use walls, the maze, U-shaped yards and crates you place yourself to fool it. Whoever lasts longest tops the leaderboard."
+        "da": "Du står på et stort kort, og alt står stille, indtil du rører en tast. Så starter uret, og PNG'en løber efter dig. Den er hurtigere end dig og bliver ved med at blive det. Brug mure, labyrinten, gårde med tre vægge og kasser, du selv sætter ud, til at slippe væk. Din længste tid kommer på tavlen sammen med de andre spilleres.",
+        "en": "You stand on a big map and everything is frozen until you touch a key. Then the clock starts and the PNG runs after you. It is faster than you and keeps getting faster. Use walls, the maze, three-walled yards and crates you place yourself to get away. Your longest time goes on the leaderboard with everyone else's."
       },
       "facts": [
         {
@@ -264,13 +285,14 @@
         "linux"
       ],
       "art": {
-        "hero": "flugt/hero.webp",
-        "card": "flugt/hero-sm.webp",
+        "hero": "flugt/hero-20261112.webp",
+        "card": "flugt/hero-20261112-sm.webp",
         "shots": [
-          "flugt/s1.webp",
-          "flugt/s2.webp",
-          "flugt/s3.webp",
-          "flugt/s4.webp"
+          "flugt/s1-20261112.webp",
+          "flugt/s2-20261112.webp",
+          "flugt/s3-20261112.webp",
+          "flugt/s4-20261112.webp",
+          "flugt/s5-20261112.webp"
         ]
       },
       "package": {
@@ -278,6 +300,11 @@
         "runtime": "bundled",
         "dir": "flugt",
         "version": "1.0.0"
+      },
+      "content": {
+        "reviewedFor": "1.0.0",
+        "hash": "70fa0495b94c1254",
+        "reviewedAt": "2026-11-12"
       }
     },
     {
@@ -294,8 +321,8 @@
         "en": "Tag between skyscrapers. Touch someone else and they become It."
       },
       "description": {
-        "da": "Den, der er Den, skal røre en anden. Når tiden løber ud, vinder den, der har været Den i færrest sekunder. Du løber, dobbelthopper, dasher, løber på vægge og bruger gribekrog mellem tårne og svævende platforme. Falder du ned i voiden, starter du forfra på toppen. Spil solo mod bots, eller start et rum og få andre med via en kode på fire tal.",
-        "en": "Whoever is It has to touch someone else. When time runs out, the player who has been It for the fewest seconds wins. You run, double jump, dash, wall-run and use a grappling hook between towers and floating platforms. Fall into the void and you start over at the top. Play solo against bots, or start a room and bring others in with a four digit code."
+        "da": "Den, der er Den, skal røre en anden. Når de to minutter er gået, vinder den, der har været Den i færrest sekunder. Du løber, dobbelthopper, dasher, løber på vægge og svinger med gribekrog mellem elleve skyskrabere og svævende platforme. Falder du i voiden, starter du forfra på toppen. Du kan spille solo mod bots eller starte et rum og få andre med via en kode på fire tal.",
+        "en": "Whoever is It has to touch someone else. When the two minutes are up, the player who has been It for the fewest seconds wins. You run, double jump, dash, wall-run and swing on a grappling hook between eleven skyscrapers and floating platforms. Fall into the void and you start over at the top. You can play solo against bots or start a room and bring others in with a four digit code."
       },
       "facts": [
         {
@@ -335,12 +362,13 @@
         "linux"
       ],
       "art": {
-        "hero": "freefall/hero.webp",
-        "card": "freefall/hero-sm.webp",
+        "hero": "freefall/hero-20261112.webp",
+        "card": "freefall/hero-20261112-sm.webp",
         "shots": [
-          "freefall/s1.webp",
-          "freefall/s2.webp",
-          "freefall/s3.webp"
+          "freefall/s1-20261112.webp",
+          "freefall/s2-20261112.webp",
+          "freefall/s3-20261112.webp",
+          "freefall/s4-20261112.webp"
         ]
       },
       "package": {
@@ -375,6 +403,11 @@
             ]
           }
         }
+      },
+      "content": {
+        "reviewedFor": "0.2.0",
+        "hash": "fe3bce13dbe1a1d8",
+        "reviewedAt": "2026-11-12"
       }
     },
     {
@@ -391,8 +424,8 @@
         "en": "Football with real rules. The referee, offside and the keeper follow the laws."
       },
       "description": {
-        "da": "Elleve mod elleve med en dommer der dømmer frispark, kort, fordel, hånd og offside, målt på kroppen. Bolden følger rigtig fysik med luftmodstand, skrue, vind og højde over havet, og målmanden kaster sig kun efter det, han kan nå. Spil mod computeren, mod en ven eller online med en kode. Værten er serveren, og kampen spoles tilbage, hvis et input kommer for sent, så udfaldet er det samme uanset ping.",
-        "en": "Eleven against eleven with a referee who calls fouls, cards, advantage, handball and offside, measured on the body. The ball follows real physics with drag, spin, wind and altitude, and the keeper only dives for what he can reach. Play the computer, a friend or online with a code. The host is the server, and the match rewinds if an input arrives late, so the outcome is the same whatever the ping."
+        "da": "Elleve mod elleve, hvor dommeren dømmer frispark, kort, fordel, hånd og offside ud fra spillernes kroppe. Bolden har luftmodstand, skrue, vind og højde over havet, og målmanden går kun efter de bolde, han kan nå. Du kan spille mod computeren, mod en ven eller online med en kode. Værten er serveren, og kampen spoles tilbage, hvis et input kommer for sent, så resultatet er det samme uanset ping. Der er 20 opfundne klubber og fem stadioner, som kan spilles om dagen, i aftensol, i skumring og om natten.",
+        "en": "Eleven against eleven, with a referee who calls fouls, cards, advantage, handball and offside, measured on the players' bodies. The ball has drag, spin, wind and altitude, and the keeper only goes for balls he can reach. You can play the computer, a friend or online with a code. The host is the server, and the match rewinds if an input arrives late, so the result is the same whatever the ping. There are 20 invented clubs and five stadiums, playable by day, in the evening sun, at dusk and at night."
       },
       "facts": [
         {
@@ -442,14 +475,14 @@
         "linux"
       ],
       "art": {
-        "hero": "offside/hero.webp",
-        "card": "offside/hero-sm.webp",
+        "hero": "offside/hero-20261112.webp",
+        "card": "offside/hero-20261112-sm.webp",
         "shots": [
-          "offside/s1.webp",
-          "offside/s2.webp",
-          "offside/s3.webp",
-          "offside/s4.webp",
-          "offside/s5.webp"
+          "offside/s1-20261112.webp",
+          "offside/s2-20261112.webp",
+          "offside/s3-20261112.webp",
+          "offside/s4-20261112.webp",
+          "offside/s5-20261112.webp"
         ]
       },
       "package": {
@@ -484,6 +517,11 @@
             ]
           }
         }
+      },
+      "content": {
+        "reviewedFor": "0.1.1",
+        "hash": "63bbdb1cec2bb900",
+        "reviewedAt": "2026-11-12"
       }
     }
   ]

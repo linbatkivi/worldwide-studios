@@ -17,30 +17,19 @@ WD = HOME / "wd/web/assets/img"
 SRC = ROOT / "tools/art-src"
 
 # (spil, filnavn, kilde, bredde)
+# Billederne er filmiske, uden skærmtekst, og navnet ender på datoen de er taget (ÅÅÅÅMMDD), så launcheren altid henter de nye og ikke
+# cachede gamle. Se docs/katalog-indhold.md. Ved nye billeder: læg kilderne i tools/art-src, tilføj dem her og ret art i catalog/games.json.
+D = "20261112"
+def set_(game, prefix):
+    rows = [("hero", "wh", 1920)] + [(f"s{i}", f"w{i}", 1280) for i in range(1, 6)]
+    return [(game, f"{n}-{D}", SRC / f"{prefix}-{k}.webp", w) for n, k, w in rows]
+
 JOBS = [
-    ("white-dust", "hero",   WD / "maps/niseko_spawn.jpg",        1920),
-    ("white-dust", "s1",     WD / "maps/bureau_terrasse.jpg",     1280),
-    ("white-dust", "s2",     WD / "maps/niseko_canal.jpg",        1280),
-    ("white-dust", "s3",     WD / "maps/bureau_atrium.jpg",       1280),
-    ("white-dust", "s4",     WD / "maps/fattoria_mid.jpg",        1280),
-    ("white-dust", "s5",     WD / "shots/v21_runde_vundet.jpg",   1280),
-    ("blindline",  "hero",   SRC / "blindline-hero.webp",         1920),
-    ("blindline",  "s1",     SRC / "blindline-s1.webp",          1280),
-    ("blindline",  "s2",     SRC / "blindline-s2.webp",          1280),
-    ("blindline",  "s3",     SRC / "blindline-s3.webp",          1280),
-    ("blindline",  "s4",     SRC / "blindline-s4.webp",          1280),
-    # filmiske billeder taget direkte i spillet uden skærmtekst (nye navne, så launcheren henter dem fra siden uden en ny udgave)
-    ("blindline",  "hero2",  SRC / "blindline-hero2.webp",       1920),
-    ("blindline",  "c1",     SRC / "blindline-c1.webp",          1280),
-    ("blindline",  "c2",     SRC / "blindline-c2.webp",          1280),
-    ("blindline",  "c3",     SRC / "blindline-c3.webp",          1280),
-    ("blindline",  "c4",     SRC / "blindline-c4.webp",          1280),
-    # Flugt: skærmbilleder taget direkte i spillet (renderer.capture), uden skærmtekst
-    ("flugt",      "hero",   SRC / "flugt-hero.webp",            1920),
-    ("flugt",      "s1",     SRC / "flugt-s1.webp",              1280),
-    ("flugt",      "s2",     SRC / "flugt-s2.webp",              1280),
-    ("flugt",      "s3",     SRC / "flugt-s3.webp",              1280),
-    ("flugt",      "s4",     SRC / "flugt-s4.webp",              1280),
+    *set_("white-dust", "white-dust"),
+    *set_("blindline", "blindline"),
+    *set_("freefall", "freefall"),
+    *set_("offside", "offside"),
+    *set_("flugt", "flugt"),
 ]
 
 def save(img, dest, width, quality=80):
@@ -54,7 +43,7 @@ def save(img, dest, width, quality=80):
 total = 0
 for game, name, src, width in JOBS:
     if not src.exists():
-        print("mangler:", src); continue
+        continue
     img = Image.open(src)
     for out in OUT:
         total += save(img, out / game / f"{name}.webp", width)

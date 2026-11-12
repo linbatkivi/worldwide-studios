@@ -46,6 +46,22 @@ if (!GAMES[id] || !/^\d+\.\d+\.\d+$/.test(version || '')) { console.error('brug:
 const g = GAMES[id], has = f => flags.includes(f);
 const run = (cmd, args, o = {}) => execFileSync(cmd, args, { stdio: ['ignore', 'pipe', 'inherit'], ...o }).toString().trim();
 const sha = f => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+// Billeder og tekst skal gennemgås ved hver udgivelse (docs/katalog-indhold.md). Spærren kan ikke springes over.
+{
+  const cat = JSON.parse(fs.readFileSync(path.join(root, 'catalog', 'games.json'), 'utf8')), cg = cat.games.find(x => x.id === id);
+  const { check } = require('./content-check');
+  const bad = cg ? check(cg) : ['spillet findes ikke i kataloget'];
+  if (bad.length || !cg.content || cg.content.reviewedFor !== version) {
+    console.error(`\n✗ Udgivelsen af ${g.title} ${version} stoppet: billeder og beskrivelse er ikke gennemgået til denne version.\n`);
+    if (bad.length) console.error('  Fejl:\n  - ' + bad.join('\n  - ') + '\n');
+    console.error(`  Gør dette først (læs docs/katalog-indhold.md):
+   1. Tag nye, filmiske billeder af spillet som det ser ud nu, uden skærmtekst, og læg dem i site/assets/art/${id}/ (tools/make-art.py laver størrelserne).
+   2. Læs beskrivelse, tagline og fakta i catalog/games.json igen og ret dem til det spillet kan nu. Skriv som et menneske.
+   3. node tools/content-check.js ${id} ${version}          (tilføj --same hvis spillet slet ikke har ændret sig synligt)
+   4. Kør udgivelsen igen.\n`);
+    process.exit(1);
+  }
+}
 const out = path.join(g.dir, 'builds'), dist = path.join(out, 'dist-' + version);
 
 if (!has('--skip-build') && g.electron) {
