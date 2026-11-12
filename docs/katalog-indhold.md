@@ -8,7 +8,7 @@ Hver gang et spil udgives til launcheren, skal billederne og teksten i `catalog/
 2. Peg `art.hero`, `art.card` og `art.shots` i kataloget på de nye filer. Brug nye filnavne, når et billede skiftes (fx `hero3.webp`), ellers viser launcheren det gamle fra sin cache.
 3. Læs `tagline`, `description` og `facts` igen. Står der noget, der ikke længere passer, eller mangler noget nyt spillet kan, så ret det. Både dansk og engelsk.
 4. `node tools/content-check.js <spil> <version>` tjekker reglerne og stempler indholdet til versionen. Har spillet ikke ændret sig synligt, kræver stemplet `--same`.
-5. Udgiv. Commit kun egne filer, andre sessions redigerer samtidig.
+5. Udgiv (publish-game.js lægger også kataloget og billederne ud på hjemmesiden med tools/deploy-site.sh; ved White Dust og Flugt kør den selv). Commit kun egne filer, andre sessions redigerer samtidig.
 
 ## Billeder
 

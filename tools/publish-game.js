@@ -119,5 +119,7 @@ if (!has('--no-push')) {
   run('git', ['add', 'catalog/games.json'], { cwd: root });
   run('git', ['commit', '-q', '-m', `${g.title} ${version}`, '-m', 'Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>'], { cwd: root });
   run('git', ['push', '-q'], { cwd: root });
-  console.log('✓ pushet. Hjemmesiden og launcheren henter den nye udgave om et par minutter.');
+  console.log('· lægger kataloget og billederne ud på hjemmesiden, hvor launcheren henter dem');
+  run('bash', [path.join(root, 'tools', 'deploy-site.sh')], { cwd: root });
+  console.log('✓ pushet og lagt ud. Launcheren henter den nye udgave inden for et par minutter.');
 }
