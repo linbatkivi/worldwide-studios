@@ -22,8 +22,9 @@ function createCatalog({ userData, log = () => {} }) {
       try {
         const c = await getJson(site + 'catalog.json', { timeout: 6000 });
         if (!valid(c)) throw new Error('kataloget er ugyldigt');
-        current = c; writeJson(cacheFile, c);
-        return { changed: true, catalog: c };
+        const changed = JSON.stringify(c) !== JSON.stringify(current);     // tjekket kører i baggrunden: meld kun noget, når indholdet er nyt
+        if (changed) { current = c; writeJson(cacheFile, c); }
+        return { changed, catalog: current };
       } catch (e) { log('[katalog] kunne ikke hentes:', e.message); return { changed: false, catalog: current }; }
     }
   };
