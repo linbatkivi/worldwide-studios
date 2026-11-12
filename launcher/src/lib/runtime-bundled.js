@@ -36,11 +36,13 @@ async function launch({ dir, title, account, appVersion, onExit, log = () => {} 
   let win = null, closed = false;
   const stop = code => {
     if (closed) return; closed = true;
+    try { session.fromPartition(PARTITION).protocol.unhandle(SCHEME); } catch (e) {}
     try { win && !win.isDestroyed() && win.destroy(); } catch (e) {}
     onExit && onExit(code || 'closed');
   };
 
   const ses = session.fromPartition(PARTITION);
+  try { ses.protocol.unhandle(SCHEME); } catch (e) {}
   ses.protocol.handle(SCHEME, async req => {
     let rel;
     try { rel = decodeURIComponent(new URL(req.url).pathname); } catch (e) { return new Response('', { status: 400 }); }

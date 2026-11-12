@@ -1,5 +1,5 @@
 'use strict';
-// Launcheren opdaterer sig selv, uden at man skal gøre noget: den tjekker ved start og hver time, henter i baggrunden
+// Launcheren opdaterer sig selv, uden at man skal gøre noget: den tjekker ved start og hvert 10. sekund, henter i baggrunden
 // og genstarter, når ingen spil kører. Kører et spil, venter den til det er lukket (eller man trykker på bjælken).
 //   Windows og Linux: electron-updater.   macOS: lib/mac-update.js (appen er ikke signeret hos Apple).
 const { app, shell } = require('electron');
@@ -13,7 +13,10 @@ function createSelfUpdater({ releasesUrl, repo, send, log, canRestart = () => tr
   function tryRestart() { if (state.state === 'ready' && canRestart()) restart(); else if (state.state === 'ready' && !timer) timer = setInterval(() => { if (canRestart()) { clearInterval(timer); timer = null; restart(); } }, 15000); }
   function restart() { if (isMac) { if (mac.apply()) app.quit(); } else if (autoUpdater) autoUpdater.quitAndInstall(); }
 
+  let macBusy = false;
   async function checkMac() {
+    if (macBusy || state.state === 'downloading' || state.state === 'ready') return;
+    macBusy = true;
     try {
       const u = await mac.check(); if (!u) return;
       if (!mac.writable()) return set({ state: 'manual', version: u.version });
@@ -21,6 +24,7 @@ function createSelfUpdater({ releasesUrl, repo, send, log, canRestart = () => tr
       await mac.download(u);
       set({ state: 'ready', version: u.version });
     } catch (e) { log('[opdatering] fejl:', e.message); if (state.state === 'downloading') set({ state: 'idle' }); }
+    finally { macBusy = false; }
   }
 
   function start() {
@@ -28,7 +32,7 @@ function createSelfUpdater({ releasesUrl, repo, send, log, canRestart = () => tr
     if (isMac) {
       const { createMacUpdater } = require('./mac-update');
       mac = createMacUpdater({ repo, version: app.getVersion(), workDir: path.join(app.getPath('userData'), 'update'), appPath: path.resolve(app.getPath('exe'), '..', '..', '..'), log });
-      checkMac(); setInterval(checkMac, 3600e3).unref();
+      checkMac(); setInterval(checkMac, 10e3).unref();
       return;
     }
     try { ({ autoUpdater } = require('electron-updater')); } catch (e) { log('[opdatering] electron-updater mangler:', e.message); return; }
@@ -37,8 +41,8 @@ function createSelfUpdater({ releasesUrl, repo, send, log, canRestart = () => tr
     autoUpdater.on('update-available', i => set({ state: 'downloading', version: i.version }));
     autoUpdater.on('update-downloaded', i => set({ state: 'ready', version: i.version }));
     autoUpdater.on('error', e => log('[opdatering] fejl:', e && e.message));
-    const run = () => autoUpdater.checkForUpdates().catch(() => {});
-    run(); setInterval(run, 3600e3).unref();
+    const run = () => { if (state.state === 'downloading' || state.state === 'ready') return; autoUpdater.checkForUpdates().catch(() => {}); };
+    run(); setInterval(run, 10e3).unref();
   }
   return { start, state: () => state, apply() { if (state.state === 'ready') restart(); else if (state.state === 'manual') shell.openExternal(releasesUrl); } };
 }

@@ -77,6 +77,7 @@ async function launch({ root, version, account, appVersion, onExit, moduleLink, 
 
   const stop = code => {
     if (closed) return; closed = true;
+    try { session.fromPartition(PARTITION).protocol.unhandle('wd'); } catch (e) {}
     try { proc && proc.kill(); } catch (e) {}
     try { win && !win.isDestroyed() && win.destroy(); } catch (e) {}
     onExit && onExit(code || 'closed');
@@ -92,6 +93,7 @@ async function launch({ root, version, account, appVersion, onExit, moduleLink, 
   if (!(await waitHealthy(port, 20000))) { stop('server-failed'); throw new Error('Spilserveren startede ikke'); }
 
   const ses = session.fromPartition(PARTITION);
+  try { ses.protocol.unhandle('wd'); } catch (e) {}
   ses.protocol.handle('wd', async req => {
     let rel;
     try { rel = decodeURIComponent(new URL(req.url).pathname); } catch (e) { return new Response('', { status: 400 }); }

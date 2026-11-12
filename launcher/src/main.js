@@ -135,8 +135,14 @@ async function boot() {
 
   await secureReady;
   await auth.restore();
-  catalog.refresh().then(r => { if (r.changed) send('catalog:change', r.catalog); }).then(() => games.checkUpdates()).catch(() => {});
-  setInterval(() => catalog.refresh().then(r => { if (r.changed) send('catalog:change', r.catalog); }).then(() => games.checkUpdates()).catch(() => {}), 30 * 60e3).unref();
+  // Tjek hvert 10. sekund om der er nyt (katalog, spil og launcher). Kører et tjek stadig, springes næste over.
+  let checking = false;
+  const poll = async () => {
+    if (checking) return; checking = true;
+    try { const r = await catalog.refresh(); if (r.changed) send('catalog:change', r.catalog); await games.checkUpdates(); }
+    catch (e) { /* næste forsøg om 10 sekunder */ } finally { checking = false; }
+  };
+  poll(); setInterval(poll, 10e3).unref();
   updater.start();
 }
 

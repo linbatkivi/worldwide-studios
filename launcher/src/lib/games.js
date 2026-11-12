@@ -127,6 +127,7 @@ class GameManager extends EventEmitter {
   async checkOne(id) {
     const g = this.catalog.game(id); if (!g || this.busy[id] || this.running[id] || g.package.kind === 'bundled') return;
     const inst = this._installed(id, g); if (!inst) return;
+    const before = this.latest[id] && this.latest[id].version;
     try {
       if (g.package.kind === 'web-manifest') {
         const p = await web.plan(g.package.manifest, inst.dir);
@@ -134,7 +135,7 @@ class GameManager extends EventEmitter {
       } else if (g.package.version && g.package.version !== inst.version) this.latest[id] = { version: g.package.version, bytes: (native.buildFor(g.package) || {}).size || 0 };
       else delete this.latest[id];
     } catch (e) { this.log('[opdatering] tjek fejlede for', id, e.message); }
-    this._emit(id);
+    if ((this.latest[id] && this.latest[id].version) !== before) this._emit(id);        // tjekket kører hvert 10. sekund: tegn kun om, når noget er ændret
   }
 
   async checkUpdates() {

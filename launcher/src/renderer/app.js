@@ -14,7 +14,7 @@
     play: '<svg class="ico" viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M7 4.5v15l13-7.5z"/></svg>'
   };
 
-  const S = { info: null, auth: { status: 'loading' }, catalog: null, games: {}, sel: null, view: 'game', settings: null, update: null, authMode: 'login', menu: false, confirm: false, progress: {} };
+  const S = { info: null, auth: { status: 'loading' }, catalog: null, games: {}, sel: null, view: 'home', settings: null, update: null, authMode: 'login', menu: false, confirm: false, progress: {} };
   const gameOf = id => S.catalog.games.find(g => g.id === id);
 
   // ---------- formater ----------
@@ -60,7 +60,7 @@
 
     ww.auth.onChange(s => { const was = S.auth.status; S.auth = s; if (was !== s.status) route(); else { if (S.auth.status === 'signed-in') { renderRail(); renderBanner(); if (S.view === 'settings') renderSettings(); } } });
     ww.catalog.onChange(c => { S.catalog = c; if (S.auth.status === 'signed-in') renderShell(); });
-    ww.games.onState(e => { S.games[e.id] = e; if (S.auth.status !== 'signed-in') return; renderRail(); if (S.view === 'game' && S.sel === e.id) renderDynamic(); });
+    ww.games.onState(e => { S.games[e.id] = e; if (S.auth.status !== 'signed-in') return; renderRail(); if (S.view === 'game' && S.sel === e.id) renderDynamic(); else if (S.view === 'home') refreshHomeRow(e); });
     ww.games.onProgress(p => { S.progress[p.id] = p; if (S.view === 'game' && S.sel === p.id) paintProgress(p); updateRailProgress(p); });
     ww.app.onUpdate(u => { S.update = u; renderBanner(); });
     document.addEventListener('keydown', e => {
@@ -71,8 +71,10 @@
   }
 
   // ---------- hovedruten ----------
-  let sphere = null;
+  let sphere = null, homeSphere = null;
+  const killHome = () => { if (homeSphere) { homeSphere.destroy(); homeSphere = null; } };
   function route() {
+    killHome();
     const app = $('#app');
     if (sphere) { sphere.destroy(); sphere = null; }
     if (S.auth.status === 'signed-in') { renderShell(); ww.games.check().catch(() => {}); }
@@ -179,13 +181,13 @@
   function renderShell() {
     if (sphere) { sphere.destroy(); sphere = null; }
     $('#app').innerHTML = `<div class="shell">
-      <aside class="rail"><div class="rail-top">${MARK}<span class="wm">Worldwide<i>(Studios)</i></span></div>
+      <aside class="rail"><button class="rail-top nodrag" data-act="home" aria-label="Hjem">${MARK}<span class="wm">Worldwide<i>(Studios)</i></span></button>
         <div class="rail-label">${esc(t('nav.library'))}</div><nav class="games" id="games"></nav>
         <div class="rail-foot"><button class="me nodrag" data-act="settings" id="me"></button><button class="gear nodrag" data-act="settings" id="gear" title="${esc(t('nav.settings'))}">${ICON.gear}</button></div>
       </aside>
       <main class="main" id="main"></main></div>`;
     renderRail(); renderBanner();
-    if (S.view === 'settings') renderSettings(); else renderGame();
+    if (S.view === 'settings') renderSettings(); else if (S.view === 'home') renderHome(); else renderGame();
   }
 
   function statusLine(g, e) {
@@ -213,6 +215,13 @@
     $('#me').innerHTML = `<span class="avatar">${esc((u && u.displayName || '?').slice(0, 1).toUpperCase())}</span><span style="min-width:0"><span class="nm" style="display:block">${esc(u ? u.displayName : '')}</span><span class="sub"><i class="${S.auth.offline ? 'off' : ''}"></i>${esc(S.auth.offline ? 'offline' : 'online')}</span></span>`;
     $('#gear').classList.toggle('on', S.view === 'settings');
   }
+  function refreshHomeRow(e) {
+    const g = gameOf(e.id), el = document.querySelector(`.hrow [data-rs="${e.id}"]`); if (!g || !el) return;
+    el.textContent = statusLine(g, e); el.classList.toggle('hot', e.status === 'update');
+    const row = el.closest('.hrow'), btn = row.querySelector('[data-act="play"]'), can = e.status === 'ready' || e.status === 'update';
+    if (can && !btn) row.insertAdjacentHTML('beforeend', `<button class="btn sm nodrag" data-act="play" data-id="${esc(e.id)}">${esc(t('btn.play'))}</button>`);
+    else if (!can && btn) btn.remove();
+  }
   function updateRailProgress(p) {
     const el = $(`[data-rs="${p.id}"]`); if (!el) return;
     const e = S.games[p.id]; if (e) el.textContent = statusLine(gameOf(p.id), e);
@@ -230,6 +239,31 @@
     b.innerHTML = html;
   }
 
+  // ---------- hjem: kuglen og en oversigt over spillene ----------
+  function renderHome() {
+    killHome();
+    const main = $('#main'), u = S.auth.user;
+    const rows = S.catalog.games.map(g => {
+      const e = S.games[g.id], hot = e && e.status === 'update';
+      return `<div class="hrow">
+        <button class="hsel nodrag" data-act="select" data-id="${esc(g.id)}"><span class="th" style="background-image:url(${esc(thumb('art/' + g.art.card))})"></span>
+          <span><span class="n">${esc(g.name)}</span><span class="s ${hot ? 'hot' : ''}" data-rs="${esc(g.id)}">${esc(statusLine(g, e))}</span></span></button>
+        ${e && (e.status === 'ready' || e.status === 'update') ? `<button class="btn sm nodrag" data-act="play" data-id="${esc(g.id)}">${esc(t('btn.play'))}</button>` : ''}
+      </div>`;
+    }).join('');
+    main.innerHTML = '<div id="banner"></div>' + `<section class="home">
+      <canvas class="home-globe nodrag"></canvas>
+      <div class="home-copy">
+        <p class="eyebrow"><span>(kivi studios)</span></p>
+        <h1 class="home-title">${esc(t('home.hello', { n: u ? u.displayName : '' }))}</h1>
+        <p class="tag">${esc(t('home.sub'))}</p>
+        <div class="hrows">${rows}</div>
+      </div></section>`;
+    renderBanner();
+    homeSphere = WWSphere.create($('.home-globe', main), { radius: 0.3, center: [0.74, 0.5], tilt: 0.38, yaw: 3.2 });
+    main.scrollTop = 0;
+  }
+
   // ---------- spilsiden ----------
   function splitTitle(name) {
     let i = 0;
@@ -237,6 +271,7 @@
   }
 
   function renderGame() {
+    killHome();
     const main = $('#main'), g = gameOf(S.sel); if (!g) return;
     const banner = $('#banner');
     main.innerHTML = '<div id="banner"></div>' + `<section class="game" id="gameView">
@@ -326,6 +361,7 @@
   // INDSTILLINGER
   // =====================================================================================================================
   function renderSettings() {
+    killHome();
     const main = $('#main'), u = S.auth.user, st = S.settings, nat = S.catalog.games.filter(g => g.package.kind === 'native');
     const keep = $('#panel') ? $('#panel').dataset.open : '';
     main.innerHTML = '<div id="banner"></div>' + `<section class="set"><h1>${esc(t('set.title'))}</h1>
@@ -378,6 +414,7 @@
         case 'mode': S.authMode = el.dataset.m; drawAuthForm(); break;
         case 'forgot': S.authMode = 'forgot'; drawAuthForm(); break;
         case 'eye': { const i = $('#' + el.dataset.for); const show = i.type === 'password'; i.type = show ? 'text' : 'password'; el.textContent = t(show ? 'auth.hide' : 'auth.show'); break; }
+        case 'home': S.view = 'home'; S.menu = false; renderRail(); renderHome(); break;
         case 'select': S.view = 'game'; S.sel = id; S.menu = false; S.confirm = false; renderRail(); renderGame(); break;
         case 'settings': S.view = 'settings'; renderRail(); renderSettings(); break;
         case 'install': await ww.games.install(id); break;
